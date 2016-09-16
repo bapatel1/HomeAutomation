@@ -1,8 +1,4 @@
 .eslintrc
-build
-./build
-dist
-./dist
 .logs
 logs
 typings
