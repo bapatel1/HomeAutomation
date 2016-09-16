@@ -76,6 +76,6 @@ RUN npm run build
 #Expose the port
 EXPOSE 3030
 
-CMD ["pm2", "start", "processes.json", "--no-daemon"]
+CMD ["npm", "start"]
 
 # voila!
