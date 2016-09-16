@@ -1,7 +1,6 @@
 .eslintrc
 .logs
 logs
-typings
 .idea
 
 # Global Node.js .gitignore settings
