@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var http = require('http');
 //Let's import your router files
 var garageRouter = require("./routes/garage");
-var usersRouter = require("./routes/users");
 var piRouter = require("./routes/pi");
 var HttpServer = (function () {
     function HttpServer() {
@@ -17,7 +16,6 @@ var HttpServer = (function () {
         //configure routes
         this.GarageRoutes();
         this.PiRoutes();
-        this.UsersRoutes();
     }
     HttpServer.bootstrap = function () {
         return new HttpServer();
@@ -51,12 +49,6 @@ var HttpServer = (function () {
         this.router.get("/restart", pi.restart.bind(pi.restart));
         this.router.get("/shutdown", pi.shutdown.bind(pi.shutdown));
         this.app.use("/api/pi", this.router);
-    };
-    HttpServer.prototype.UsersRoutes = function () {
-        this.router = express.Router();
-        var users = new usersRouter.Users();
-        this.router.get("/all", users.all.bind(users.all));
-        this.app.use("/api/users", this.router);
     };
     return HttpServer;
 }());

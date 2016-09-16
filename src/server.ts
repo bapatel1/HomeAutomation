@@ -9,7 +9,6 @@ import * as http from 'http';
 
 //Let's import your router files
 import * as garageRouter from "./routes/garage";
-import * as usersRouter from "./routes/users";
 import * as piRouter from "./routes/pi";
 
 class HttpServer {
@@ -28,7 +27,6 @@ class HttpServer {
         //configure routes
         this.GarageRoutes();
         this.PiRoutes();
-        this.UsersRoutes();
     }
     private ExpressConfiguration(){
       this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,12 +61,6 @@ class HttpServer {
         this.app.use("/api/pi",this.router);
     }
 
-    private UsersRoutes() {
-        this.router = express.Router();
-        var users: usersRouter.Users = new usersRouter.Users();
-        this.router.get("/all", users.all.bind(users.all));
-        this.app.use("/api/users",this.router);
-    }
 }
 
 //Now initialize app based on HttpServer Class,we defined.
