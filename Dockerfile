@@ -41,7 +41,7 @@ RUN apt-get install -y -q --no-install-recommends \
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 6.2.0
 
-# Install nvm with node and npm
+# Install nvm with node and npm from https://github.com/creationix/nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -63,9 +63,8 @@ RUN npm install
 #RUN npm i --production
 
 # Install pm2 so we can run our application
-RUN npm i -s epoll
 RUN npm i -g pm2 gulp tsd typescript gulp-util epoll
-RUN npm i -s express body-parser async
+RUN npm i -s epoll express body-parser async
 
 
 # Add application files
