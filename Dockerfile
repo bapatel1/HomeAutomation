@@ -63,6 +63,7 @@ RUN npm install
 #RUN npm i --production
 
 # Install pm2 so we can run our application
+RUN npm i -s epoll
 RUN npm i -g pm2 gulp tsd typescript gulp-util
 RUN npm i -s express body-parser async
 
