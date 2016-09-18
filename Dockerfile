@@ -8,7 +8,7 @@ USER root
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Set environment variables
-ENV appDir /var/www/app/current
+ENV appDir /var/www/app/homeautomation/api
 
 
 # Run updates and install deps
@@ -57,11 +57,11 @@ ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # Set the work directory
-RUN mkdir -p /var/www/app/current
+RUN mkdir -p /var/www/app/homeautomation/api
 WORKDIR ${appDir}
 
 # Add our package.json and install *before* adding our application files
-ADD package.json /var/www/app/current
+ADD package.json /var/www/app/homeautomation/api
 RUN npm install
 #RUN npm i --production
 
@@ -71,7 +71,7 @@ RUN npm i -s epoll express body-parser async
 
 
 # Add application files
-ADD . /var/www/app/current
+ADD . /var/www/app/homeautomation/api
 
 RUN gulp clean
 RUN npm run build
