@@ -1,5 +1,8 @@
+#!/bin/bash
 #using debian:jessie for it's smaller size over ubuntu
 FROM debian:jessie
+
+USER root
 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
