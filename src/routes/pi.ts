@@ -5,7 +5,7 @@ import * as express from "express";
 import * as events from "events";
 import * as stream from "stream";
 const exec = require('child_process').exec;
-const cpulib = require('cpuusage');
+const cpulib = require('cpu-usage');
 
 
 cpulib( 1000, function( load :string) {
