@@ -19,6 +19,11 @@ module Route {
                 }
                 else {
                     console.log('Written to pin');
+                    setTimeout(() => {
+                        gpio.destroy(function() {
+                            console.log('All pins unexported');
+                        });
+                    }, 1500)
                     return res.json("Success:Garage ON finished.");
                 }
             });
@@ -43,8 +48,8 @@ module Route {
                     console.log(error);
                 else {
                     res.set({
-                      "Content-Disposition": "attachment; filename=garage.jpg",
-                      "content-type":"image/jpg"
+                        "Content-Disposition": "attachment; filename=garage.jpg",
+                        "content-type": "image/jpg"
                     })
                     res.sendFile("garage.jpg", { root: __dirname });
                     process.stderr.write(stderr);
