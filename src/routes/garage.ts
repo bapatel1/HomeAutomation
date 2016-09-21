@@ -50,7 +50,7 @@ module Route {
                         "Content-Disposition": "attachment; filename=garage.jpg",
                         "content-type": "image/jpg"
                     })
-                    res.sendFile("garage.jpg", { root: __dirname });
+                    res.sendFile("../../garage.jpg", { root: __dirname });
                     process.stderr.write(stderr);
                 }
             });
