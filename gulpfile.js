@@ -17,11 +17,11 @@ gulp.task('clean', function() {
         })
         .pipe(clean());
 });
-gulp.task('js-helpers', function() {
+gulp.task('js-helpers',['clean'], function() {
     return gulp.src('src/helpers/*.js')
         .pipe(gulp.dest("build/helpers"));
 });
-gulp.task('build', function() {
+gulp.task('build',['clean','js-helpers'] function() {
     return tsProject.src()
         .pipe(ts(tsProject))
         .js.pipe(gulp.dest("build"));
