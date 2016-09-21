@@ -66,11 +66,11 @@ module Route {
                 if (error)
                     console.log(error);
                 else {
-                    return res.send(this.base64_encode("../../garage.jpg", { root: __dirname }));
-                    // res.set({
-                    //     "Content-Disposition": "attachment; filename=garage.jpg",
-                    //     "content-type": "image/jpg"
-                    // })
+                    res.set({
+                        "Content-Disposition": "attachment; filename=garage.jpg",
+                        "content-type": "image/jpg"
+                    });
+                    return res.sendFile("../../garage.jpg", { root: __dirname });
                     // res.sendFile("../../garage.jpg", { root: __dirname });
                     //process.stderr.write(stderr);
                 }
