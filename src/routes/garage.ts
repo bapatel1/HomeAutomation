@@ -15,6 +15,7 @@ module Route {
 
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
+            gpio.setup(7, gpio.DIR_OUT);
             gpio.write(7, true, function(err: Error) {
                 if (err) {
                     console.log('Error writing to pin. ' + err);
