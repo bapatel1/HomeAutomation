@@ -1,6 +1,10 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
 var exec = require('child_process').exec;
+var cpulib = require('cpuusage');
+cpulib(1000, function (load) {
+    process.stdout.write("\r" + load + "%   ");
+});
 var Route;
 (function (Route) {
     var Pi = (function () {

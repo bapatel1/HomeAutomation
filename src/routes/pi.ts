@@ -5,6 +5,12 @@ import * as express from "express";
 import * as events from "events";
 import * as stream from "stream";
 const exec = require('child_process').exec;
+const cpulib = require('cpuusage');
+
+
+cpulib( 1000, function( load :string) {
+    process.stdout.write( "\r" + load + "%   " );
+} );
 
 module Route {
     export class Pi {

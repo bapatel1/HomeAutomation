@@ -21,6 +21,7 @@ var Route;
                         gpio.destroy(function () {
                             console.log('All pins unexported');
                         });
+                        gpio.setup(7, gpio.DIR_OUT);
                     }, 1500);
                     return res.json("Success:Garage ON finished.");
                 }
@@ -34,6 +35,12 @@ var Route;
                 }
                 else {
                     console.log('Written to pin');
+                    setTimeout(function () {
+                        gpio.destroy(function () {
+                            console.log('All pins unexported');
+                        });
+                        gpio.setup(7, gpio.DIR_OUT);
+                    }, 1500);
                     return res.json("Success:Garage OFF finished.");
                 }
             });
