@@ -15,7 +15,7 @@ module Route {
 
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
-            gpio.setup(7, gpio.DIR_OUT);
+
             gpio.write(7, true, function(err: Error) {
                 if (err) {
                     console.log('Error writing to pin. ' + err);
@@ -27,6 +27,7 @@ module Route {
                         gpio.destroy(function() {
                             console.log('All pins unexported');
                         });
+                        gpio.setup(7, gpio.DIR_OUT);
                     }, 1500)
                     return res.json("Success:Garage ON finished.");
                 }
@@ -45,6 +46,7 @@ module Route {
                         gpio.destroy(function() {
                             console.log('All pins unexported');
                         });
+                        gpio.setup(7, gpio.DIR_OUT);
                     }, 1500)
                     return res.json("Success:Garage OFF finished.");
                 }
