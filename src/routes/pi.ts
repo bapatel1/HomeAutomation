@@ -5,50 +5,43 @@ import * as express from "express";
 import * as events from "events";
 import * as stream from "stream";
 const exec = require('child_process').exec;
-const cpulib = require('cpu-usage');
 const si = require('systeminformation');
-
-cpulib( 1000, function( load :string) {
-    process.stdout.write( "\r" + load + "%   " );
-} );
-
-// promises style - new in version 3
-si.cpu()
-    .then((data:any) => console.log(data))
-    .catch((error:any) => console.error(error));
 
 
 module Route {
     export class Pi {
 
         cpu(req: express.Request, res: express.Response, next: express.NextFunction) {
-            let child = exec('cat /proc/cpuinfo', function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error) console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
-            //res.json("{title:'index', message:'ON: Index'}");
+            // promises style - new in version 3
+            si.cpu()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
+
+        }
+
+        cputemparature(req: express.Request, res: express.Response, next: express.NextFunction) {
+            si.cpuTemperature()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
         }
 
         linuxversion(req: express.Request, res: express.Response, next: express.NextFunction) {
-            //res.json("{title:'index', message:'OFF: Index'}");
-            let child = exec('cat /proc/version', function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error) console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
+          si.osInfo()
+              .then((data: any) => res.json(data))
+              .catch((error: any) => { console.error(error); res.json(error); });
         }
 
         memory(req: express.Request, res: express.Response, next: express.NextFunction) {
-            //res.json("{title:'index', message:'OFF: Index'}");
-            let child = exec('cat /proc/meminfo', function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error) console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
+            si.mem()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
         }
 
-
+        networkinfo(req: express.Request, res: express.Response, next: express.NextFunction) {
+            si.networkInterfaces()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
+        }
         restart(req: express.Request, res: express.Response, next: express.NextFunction) {
             //res.json("{title:'index', message:'OFF: Index'}");
             let child = exec('sudo shutdown -r now', function(error: Error, stdout: Buffer, stderr: Buffer) {
