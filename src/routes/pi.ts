@@ -19,7 +19,7 @@ module Route {
 
         }
 
-        cputemparature(req: express.Request, res: express.Response, next: express.NextFunction) {
+        cputemp(req: express.Request, res: express.Response, next: express.NextFunction) {
             si.cpuTemperature()
                 .then((data: any) => res.json(data))
                 .catch((error: any) => { console.error(error); res.json(error); });

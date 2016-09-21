@@ -53,6 +53,8 @@ class HttpServer {
         this.router = express.Router();
         var pi: piRouter.Pi = new piRouter.Pi();
         this.router.get("/cpu", pi.cpu.bind(pi.cpu));
+        this.router.get("/cputemp", pi.cputemp.bind(pi.cputemp));
+        this.router.get("/networkinfo", pi.networkinfo.bind(pi.networkinfo));
         this.router.get("/linuxversion", pi.linuxversion.bind(pi.linuxversion));
         this.router.get("/memory", pi.memory.bind(pi.memory));
         this.router.get("/restart", pi.restart.bind(pi.restart));
