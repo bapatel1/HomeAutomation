@@ -21,7 +21,7 @@ gulp.task('js-helpers',['clean'], function() {
     return gulp.src('src/helpers/*.js')
         .pipe(gulp.dest("build/helpers"));
 });
-gulp.task('build',['clean','js-helpers'] function() {
+gulp.task('build',['clean','js-helpers'], function() {
     return tsProject.src()
         .pipe(ts(tsProject))
         .js.pipe(gulp.dest("build"));
