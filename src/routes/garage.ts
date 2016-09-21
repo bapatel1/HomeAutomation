@@ -3,13 +3,33 @@
 "use strict";
 import * as express from "express";
 import * as events from "events";
+import * as fs from "fs";
+
 const exec = require('child_process').exec;
 
 const gpio = require("../helpers/rpi-gpio.js");
 gpio.setup(7, gpio.DIR_OUT);
 
 module Route {
+
     export class Garage {
+        // function to encode file data to base64 encoded string
+        base64_encode(file: string) {
+            // read binary data
+            var bitmap = fs.readFileSync(file);
+            // convert binary data to base64 encoded string
+            return new Buffer(bitmap).toString('base64');
+        }
+
+        // function to create file from base64 encoded string
+        base64_decode(base64str: string, file: string) {
+            // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
+            var bitmap = new Buffer(base64str, 'base64');
+            // write buffer to file
+            fs.writeFileSync(file, bitmap);
+            console.log('******** File created from base64 encoded string ********');
+        }
+
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
             gpio.write(7, true, function(err: Error) {
                 if (err) {
@@ -46,12 +66,13 @@ module Route {
                 if (error)
                     console.log(error);
                 else {
-                    res.set({
-                        "Content-Disposition": "attachment; filename=garage.jpg",
-                        "content-type": "image/jpg"
-                    })
-                    res.sendFile("../../garage.jpg", { root: __dirname });
-                    process.stderr.write(stderr);
+                    return res.send(this.base64_encode("../../garage.jpg", { root: __dirname }));
+                    // res.set({
+                    //     "Content-Disposition": "attachment; filename=garage.jpg",
+                    //     "content-type": "image/jpg"
+                    // })
+                    // res.sendFile("../../garage.jpg", { root: __dirname });
+                    //process.stderr.write(stderr);
                 }
             });
         }
