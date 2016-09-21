@@ -17,7 +17,7 @@ module Route {
             gpio.write(7, true, function(err: Error) {
                 if (err) {
                     console.log('Error writing to pin while opening.');
-                    return res.json("Error - (Garage-OPEN): ${err}");
+                    return res.json("Error - (Garage-OPEN):" + err);
                 }
                 else {
                     console.log('Written to pin. Now closing the pin after 2 sec!');
@@ -26,10 +26,9 @@ module Route {
                         gpio.write(7,false, function(err:Error){
                           if (err) {
                               console.log('Error writing to pin while closing.');
-                              return res.json("Error - (Garage-CLOSE): ${err}");
+                              return res.json("Error - (Garage-CLOSE):" + err);
                           }
                           else{
-                            gpio.setup(7, gpio.DIR_OUT);
                             return res.json("Success:Garage ON closed & finished.");
                           }
                         })
@@ -63,7 +62,6 @@ module Route {
                 res.json(stdout);
                 process.stderr.write(stderr);
             });
-            //res.json("{title:'index', message:'ON: Index'}");
         }
     }
 }
