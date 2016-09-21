@@ -17,11 +17,7 @@ module Route {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
             gpio.write(7, true, function(err: Error) {
                 if (err) {
-<<<<<<< HEAD
-                    console.log('Error writing to pin. '+ err);
-=======
                     console.log('Error writing to pin. ' + err);
->>>>>>> 065d5562ca08a34d04191822b4e4239ef6add7bf
                     return res.json(err);
                 }
                 else {
@@ -64,11 +60,6 @@ module Route {
                         "content-type": "image/jpg"
                     });
                     return res.sendFile(path.resolve(__dirname + "/../../garage.jpg"));
-<<<<<<< HEAD
-                    // res.sendFile("../../garage.jpg", { root: __dirname });
-                    //process.stderr.write(stderr);
-=======
->>>>>>> 065d5562ca08a34d04191822b4e4239ef6add7bf
                 }
             });
         }
