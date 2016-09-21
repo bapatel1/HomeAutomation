@@ -11,50 +11,10 @@ gpio.setup(7, gpio.DIR_OUT);
 
 module Route {
     export class Garage {
-        //using rpi-gpio
-        on1(req: express.Request, res: express.Response, next: express.NextFunction) {
-          gpio.setup(7, gpio.DIR_OUT);
-            gpio.write(7, true, function(err: Error) {
-                if (err) {
-                    console.log('Error writing to pin while opening.');
-                    return res.json("Error - (Garage-OPEN):" + err);
-                }
-                else {
-                    console.log('Written to pin. Now closing the pin after 2 sec!');
-                    setTimeout(function(){
-                        console.log('closing the pin now.');
-                        gpio.write(7,false, function(err:Error){
-                          if (err) {
-                              console.log('Error writing to pin while closing.');
-                              return res.json("Error - (Garage-CLOSE):" + err);
-                          }
-                          else{
-                            return res.json("Success:Garage ON closed & finished.");
-                          }
-                        })
-                    },1500)
-                }
-            });
-            //return res.json("Success:Garage ON finished.");
-        }
-
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
-            gpio.setup(7, gpio.DIR_OUT);
             gpio.write(7, true, function(err: Error) {
                 if (err) console.log('Error writing to pin');
                 console.log('Written to pin');
-                setTimeout(function(){
-                    console.log('closing the pin now.');
-                    gpio.write(7,false, function(err:Error){
-                      if (err) {
-                          console.log('Error writing to pin while closing.');
-                          return res.json("Error - (Garage-CLOSE):" + err);
-                      }
-                      else{
-                        return res.json("Success:Garage ON closed & finished.");
-                      }
-                    })
-                },1500)
             });
             return res.json("Success:Garage ON finished.");
         }
