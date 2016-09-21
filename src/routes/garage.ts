@@ -7,7 +7,6 @@ const exec = require('child_process').exec;
 
 const gpio = require("../helpers/rpi-gpio.js");
 gpio.setup(7, gpio.DIR_OUT);
-gpio.output(7, false);
 
 module Route {
     export class Garage {
