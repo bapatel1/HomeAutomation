@@ -6,11 +6,17 @@ import * as events from "events";
 import * as stream from "stream";
 const exec = require('child_process').exec;
 const cpulib = require('cpu-usage');
-
+const si = require('systeminformation');
 
 cpulib( 1000, function( load :string) {
     process.stdout.write( "\r" + load + "%   " );
 } );
+
+// promises style - new in version 3
+si.cpu()
+    .then((data:any) => console.log(data))
+    .catch((error:any) => console.error(error));
+
 
 module Route {
     export class Pi {
