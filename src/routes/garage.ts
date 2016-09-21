@@ -17,7 +17,7 @@ module Route {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
             gpio.write(7, true, function(err: Error) {
                 if (err) {
-                    console.log('Error writing to pin');
+                    console.log('Error writing to pin. ' + err);
                     return res.json(err);
                 }
                 else {
@@ -40,6 +40,11 @@ module Route {
                 }
                 else {
                     console.log('Written to pin');
+                    setTimeout(() => {
+                        gpio.destroy(function() {
+                            console.log('All pins unexported');
+                        });
+                    }, 1500)
                     return res.json("Success:Garage OFF finished.");
                 }
             });
@@ -54,9 +59,7 @@ module Route {
                         "Content-Disposition": "attachment; filename=garage.jpg",
                         "content-type": "image/jpg"
                     });
-                    return res.sendFile(path.resolve(__dirname + "../../garage.jpg"));
-                    // res.sendFile("../../garage.jpg", { root: __dirname });
-                    //process.stderr.write(stderr);
+                    return res.sendFile(path.resolve(__dirname + "/../../garage.jpg"));
                 }
             });
         }
