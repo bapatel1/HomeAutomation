@@ -24,11 +24,8 @@ module Route {
                 else {
                     console.log('Written to pin');
                     setTimeout(() => {
-                        gpio.destroy(function() {
-                            console.log('All pins unexported');
-                        });
-                        gpio.setup(7, gpio.DIR_OUT);
-                    }, 1500)
+                        gpio.write(7,false,(err:Error)=>{ console.log("Relay pin is closed now.")})
+                    }, 1500);
                     return res.json("Success:Garage ON finished.");
                 }
             });
@@ -42,12 +39,6 @@ module Route {
                 }
                 else {
                     console.log('Written to pin');
-                    setTimeout(() => {
-                        gpio.destroy(function() {
-                            console.log('All pins unexported');
-                        });
-                        gpio.setup(7, gpio.DIR_OUT);
-                    }, 1500)
                     return res.json("Success:Garage OFF finished.");
                 }
             });

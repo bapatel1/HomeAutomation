@@ -1,41 +1,37 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
 var exec = require('child_process').exec;
-var cpulib = require('cpuusage');
-cpulib(1000, function (load) {
-    process.stdout.write("\r" + load + "%   ");
-});
+var si = require('systeminformation');
 var Route;
 (function (Route) {
     var Pi = (function () {
         function Pi() {
         }
         Pi.prototype.cpu = function (req, res, next) {
-            var child = exec('cat /proc/cpuinfo', function (error, stdout, stderr) {
-                if (error)
-                    console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
-            //res.json("{title:'index', message:'ON: Index'}");
+            // promises style - new in version 3
+            si.cpu()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
+        };
+        Pi.prototype.cputemp = function (req, res, next) {
+            si.cpuTemperature()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
         };
         Pi.prototype.linuxversion = function (req, res, next) {
-            //res.json("{title:'index', message:'OFF: Index'}");
-            var child = exec('cat /proc/version', function (error, stdout, stderr) {
-                if (error)
-                    console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
+            si.osInfo()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
         };
         Pi.prototype.memory = function (req, res, next) {
-            //res.json("{title:'index', message:'OFF: Index'}");
-            var child = exec('cat /proc/meminfo', function (error, stdout, stderr) {
-                if (error)
-                    console.log(error);
-                res.json(stdout);
-                process.stderr.write(stderr);
-            });
+            si.mem()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
+        };
+        Pi.prototype.networkinfo = function (req, res, next) {
+            si.networkInterfaces()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
         };
         Pi.prototype.restart = function (req, res, next) {
             //res.json("{title:'index', message:'OFF: Index'}");
