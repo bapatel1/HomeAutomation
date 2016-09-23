@@ -19,6 +19,12 @@ module Route {
 
         }
 
+        time(req: express.Request, res: express.Response, next: express.NextFunction) {
+            si.time()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
+        }
+
         cputemp(req: express.Request, res: express.Response, next: express.NextFunction) {
             si.cpuTemperature()
                 .then((data: any) => res.json(data))
@@ -42,6 +48,13 @@ module Route {
                 .then((data: any) => res.json(data))
                 .catch((error: any) => { console.error(error); res.json(error); });
         }
+
+        systeminfo(req: express.Request, res: express.Response, next: express.NextFunction) {
+            si.system()
+                .then((data: any) => res.json(data))
+                .catch((error: any) => { console.error(error); res.json(error); });
+        }
+
         restart(req: express.Request, res: express.Response, next: express.NextFunction) {
             //res.json("{title:'index', message:'OFF: Index'}");
             let child = exec('sudo shutdown -r now', function(error: Error, stdout: Buffer, stderr: Buffer) {

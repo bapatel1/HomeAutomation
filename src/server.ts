@@ -57,6 +57,8 @@ class HttpServer {
         this.router.get("/networkinfo", pi.networkinfo.bind(pi.networkinfo));
         this.router.get("/linuxversion", pi.linuxversion.bind(pi.linuxversion));
         this.router.get("/memory", pi.memory.bind(pi.memory));
+        this.router.get("/system", pi.systeminfo.bind(pi.systeminfo));
+        this.router.get("/time", pi.time.bind(pi.time));
         this.router.get("/restart", pi.restart.bind(pi.restart));
         this.router.get("/shutdown", pi.shutdown.bind(pi.shutdown));
         this.app.use("/api/pi",this.router);
