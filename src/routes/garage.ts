@@ -11,8 +11,11 @@ const exec = require('child_process').exec;
 const gpio = require("../helpers/rpi-gpio.js");
 gpio.setup(7, gpio.DIR_OUT);
 
-module Route {
+gpio.read(7, function(err:Error, value:string) {
+        console.log('The value is ' + value);
+});
 
+module Route {
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
 
