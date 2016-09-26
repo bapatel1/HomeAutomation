@@ -7,11 +7,14 @@ import * as fs from "fs";
 import * as path from "path";
 
 const exec = require('child_process').exec;
-
+const rpio = require('rpio');
 const gpio = require("../helpers/rpi-gpio.js");
 gpio.setup(7, gpio.DIR_OUT);
 
-
+rpio.open(7, rpio.OUTPUT);
+rpio.write(7, rpio.HIGH);
+rpio.msleep(1000);
+rpio.write(7, rpio.LOW);
 
 module Route {
     export class Garage {
