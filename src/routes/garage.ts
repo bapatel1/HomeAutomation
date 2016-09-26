@@ -11,14 +11,14 @@ const exec = require('child_process').exec;
 const gpio = require("../helpers/rpi-gpio.js");
 gpio.setup(7, gpio.DIR_OUT);
 
-gpio.read(7, function(err:Error, value:string) {
-        console.log('The value is ' + value);
-});
+
 
 module Route {
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
-
+            gpio.read(7, function(err: Error, value: string) {
+                console.log('The value is ' + value);
+            });
             gpio.write(7, true, function(err: Error) {
                 if (err) {
                     console.log('Error writing to pin. ' + err);
@@ -27,7 +27,7 @@ module Route {
                 else {
                     console.log('Written to pin');
                     setTimeout(() => {
-                        gpio.write(7,false,(err:Error)=>{ console.log("Relay pin is closed now.")})
+                        gpio.write(7, false, (err: Error) => { console.log("Relay pin is closed now.") })
                     }, 1500);
                     return res.json("Success:Garage ON finished.");
                 }
