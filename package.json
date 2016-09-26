@@ -21,10 +21,10 @@
     "debug": "^2.2.0",
     "epoll": "^0.1.20",
     "express": "^4.14.0",
-    "johnny-five": "^0.10.0",
     "moment": "^2.15.0",
     "morgan": "^1.7.0",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "rpio" : "^0.9.12"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

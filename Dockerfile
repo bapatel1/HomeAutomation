@@ -8,8 +8,9 @@ USER root
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Set environment variables
-ENV appDir /var/www/app/homeautomation/api
-
+ENV appDir /var/www/html/homeautomation/api
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 6.2.0
 
 # Run updates and install deps
 RUN apt-get update
@@ -41,9 +42,6 @@ RUN apt-get install -y -q --no-install-recommends \
     && apt-get -y autoclean
 
 
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 6.2.0
-
 # Install nvm with node and npm from https://github.com/creationix/nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash \
     && source $NVM_DIR/nvm.sh \
@@ -57,11 +55,11 @@ ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # Set the work directory
-RUN mkdir -p /var/www/app/homeautomation/api
+RUN mkdir -p $appDir
 WORKDIR ${appDir}
 
 # Add our package.json and install *before* adding our application files
-ADD package.json /var/www/app/homeautomation/api
+ADD package.json $appDir
 RUN npm install
 #RUN npm i --production
 
@@ -71,7 +69,7 @@ RUN npm i -s epoll express body-parser async
 
 
 # Add application files
-ADD . /var/www/app/homeautomation/api
+ADD . $appDir
 
 RUN gulp clean
 RUN npm run build
