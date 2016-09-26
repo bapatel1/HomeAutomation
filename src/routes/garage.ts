@@ -11,7 +11,9 @@ const rpio = require('rpio');
 // const gpio = require("../helpers/rpi-gpio.js");
 // gpio.setup(7, gpio.DIR_OUT);
 
-
+//*******************************************************************
+//GPIO Library used - https://github.com/jperkin/node-rpio
+//*******************************************************************
 module Route {
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
