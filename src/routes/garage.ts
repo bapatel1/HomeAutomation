@@ -6,8 +6,8 @@ import * as events from "events";
 import * as fs from "fs";
 import * as path from "path";
 
-const exec = require('child_process').exec;
-const rpio = require('rpio');
+const exec = require("child_process").exec;
+const rpio = require("rpio");
 // const gpio = require("../helpers/rpi-gpio.js");
 // gpio.setup(7, gpio.DIR_OUT);
 
@@ -17,37 +17,21 @@ const rpio = require('rpio');
 module Route {
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
-            // gpio.read(7, function(err: Error, value: string) {
-            //     console.log('The value is ' + value);
-            // });
-            // gpio.write(7, true, function(err: Error) {
-            //     if (err) {
-            //         console.log('Error writing to pin. ' + err);
-            //         return res.json(err);
-            //     }
-            //     else {
-            //         console.log('Written to pin');
-            //         setTimeout(() => {
-            //             gpio.write(7, false, (err: Error) => { console.log("Relay pin is closed now.") })
-            //         }, 1500);
-            //         return res.json("Success:Garage ON finished.");
-            //     }
-            // });
-            const tasks:any = [];
-            tasks.add({task:"Initializing PIN for OUTPUT", on:new Date()});
-            console.log('initializing PIN for OUTPUT');
+            const tasks: any = [];
+            tasks.add({task: "Initializing PIN for OUTPUT", on: new Date()});
+            console.log("initializing PIN for OUTPUT");
             rpio.open(7, rpio.OUTPUT);
-            tasks.add({task:"Setting PIN for HIGH/1", on:new Date()});
-            console.log('Setting PIN for HIGH/1');
+            tasks.add({task: "Setting PIN for HIGH/1", on: new Date()});
+            console.log("Setting PIN for HIGH/1");
             rpio.write(7, rpio.HIGH);
-            tasks.add({task:"Waiting 1 sec.", on:new Date()});
-            console.log('Waiting 1 sec.');
+            tasks.add({task: "Waiting 1 sec.", on: new Date()});
+            console.log("Waiting 1 sec.");
             rpio.msleep(1000);
-            tasks.add({task:"Setting PIN for LOW/0", on:new Date()});
-            console.log('Setting PIN for LOW/0');
+            tasks.add({task: "Setting PIN for LOW/0", on: new Date()});
+            console.log("Setting PIN for LOW/0");
             rpio.write(7, rpio.LOW);
-            tasks.add({task:"Finishing Garage Door Operations", on:new Date()});
-            console.log('Finishing Garage Door Operations');
+            tasks.add({task: "Finishing Garage Door Operations", on: new Date()});
+            console.log("Finishing Garage Door Operations");
 
             return res.json(tasks);
         }
@@ -66,7 +50,7 @@ module Route {
         }
 
         takepicture(req: express.Request, res: express.Response, next: express.NextFunction) {
-            let child = exec('fswebcam -r 1280×720 garage.jpg', function(error: Error, stdout: Buffer, stderr: Buffer) {
+            let child = exec("fswebcam -r 1280×720 garage.jpg", function(error: Error, stdout: Buffer, stderr: Buffer) {
                 if (error)
                     console.log(error);
                 else {
