@@ -13,6 +13,11 @@ var Route;
                 .then(function (data) { return res.json(data); })
                 .catch(function (error) { console.error(error); res.json(error); });
         };
+        Pi.prototype.time = function (req, res, next) {
+            si.time()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
+        };
         Pi.prototype.cputemp = function (req, res, next) {
             si.cpuTemperature()
                 .then(function (data) { return res.json(data); })
@@ -30,6 +35,11 @@ var Route;
         };
         Pi.prototype.networkinfo = function (req, res, next) {
             si.networkInterfaces()
+                .then(function (data) { return res.json(data); })
+                .catch(function (error) { console.error(error); res.json(error); });
+        };
+        Pi.prototype.systeminfo = function (req, res, next) {
+            si.system()
                 .then(function (data) { return res.json(data); })
                 .catch(function (error) { console.error(error); res.json(error); });
         };

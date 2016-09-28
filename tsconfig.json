@@ -10,6 +10,7 @@
         "outDir": "build"
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "./src/typings"
     ]
 }

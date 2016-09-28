@@ -17,11 +17,15 @@ gulp.task('clean', function() {
         })
         .pipe(clean());
 });
-gulp.task('js-helpers',['clean'], function() {
+gulp.task('config',['clean'], function() {
+    return gulp.src('src/config.json')
+        .pipe(gulp.dest("build"));
+});
+gulp.task('js-helpers',['config'], function() {
     return gulp.src('src/helpers/*.js')
         .pipe(gulp.dest("build/helpers"));
 });
-gulp.task('build',['clean','js-helpers'], function() {
+gulp.task('build',['clean','config', 'js-helpers'], function() {
     return tsProject.src()
         .pipe(ts(tsProject))
         .js.pipe(gulp.dest("build"));

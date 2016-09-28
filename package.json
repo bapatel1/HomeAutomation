@@ -16,6 +16,7 @@
   "dependencies": {
     "async": "^2.0.1",
     "body-parser": "^1.15.2",
+    "config": "^1.21.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "debug": "^2.2.0",
@@ -23,8 +24,8 @@
     "express": "^4.14.0",
     "moment": "^2.15.0",
     "morgan": "^1.7.0",
-    "winston": "^2.2.0",
-    "rpio" : "^0.9.12"
+    "rpio": "^0.9.12",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

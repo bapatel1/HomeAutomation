@@ -8,6 +8,10 @@ import * as path from "path";
 
 const exec = require("child_process").exec;
 const rpio = require("rpio");
+const config = require("config");
+console.log("Config value - ");
+console.log(config.get("api.garage.pin"));
+
 // const gpio = require("../helpers/rpi-gpio.js");
 // gpio.setup(7, gpio.DIR_OUT);
 class Task {

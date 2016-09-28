@@ -2,9 +2,9 @@
 /// <reference path="typings/body-parser/body-parser.d.ts" />
 "use strict";
 //Let's import express and other necessary middleware
-var express = require('express');
-var bodyParser = require('body-parser');
-var http = require('http');
+var express = require("express");
+var bodyParser = require("body-parser");
+var http = require("http");
 //Let's import your router files
 var garageRouter = require("./routes/garage");
 var piRouter = require("./routes/pi");
@@ -47,6 +47,8 @@ var HttpServer = (function () {
         this.router.get("/networkinfo", pi.networkinfo.bind(pi.networkinfo));
         this.router.get("/linuxversion", pi.linuxversion.bind(pi.linuxversion));
         this.router.get("/memory", pi.memory.bind(pi.memory));
+        this.router.get("/system", pi.systeminfo.bind(pi.systeminfo));
+        this.router.get("/time", pi.time.bind(pi.time));
         this.router.get("/restart", pi.restart.bind(pi.restart));
         this.router.get("/shutdown", pi.shutdown.bind(pi.shutdown));
         this.app.use("/api/pi", this.router);

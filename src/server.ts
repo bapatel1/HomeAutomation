@@ -2,10 +2,10 @@
 /// <reference path="typings/body-parser/body-parser.d.ts" />
 "use strict";
 //Let's import express and other necessary middleware
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as path from 'path';
-import * as http from 'http';
+import * as express from "express";
+import * as bodyParser from "body-parser";
+import * as path from "path";
+import * as http from "http";
 
 //Let's import your router files
 import * as garageRouter from "./routes/garage";
@@ -28,7 +28,7 @@ class HttpServer {
         this.GarageRoutes();
         this.PiRoutes();
     }
-    private ExpressConfiguration(){
+    private ExpressConfiguration() {
       this.app.use(bodyParser.urlencoded({ extended: true }));
       this.app.use(bodyParser.json());
       // catch 404 and forward to error handler
@@ -46,7 +46,7 @@ class HttpServer {
         this.router.get("/on", garage.on.bind(garage.on));
         this.router.get("/off", garage.off.bind(garage.off));
         this.router.get("/takepicture", garage.takepicture.bind(garage.takepicture));
-        this.app.use("/api/garage",this.router);
+        this.app.use("/api/garage", this.router);
     }
 
     private PiRoutes() {
@@ -61,7 +61,7 @@ class HttpServer {
         this.router.get("/time", pi.time.bind(pi.time));
         this.router.get("/restart", pi.restart.bind(pi.restart));
         this.router.get("/shutdown", pi.shutdown.bind(pi.shutdown));
-        this.app.use("/api/pi",this.router);
+        this.app.use("/api/pi", this.router);
     }
 
 }
