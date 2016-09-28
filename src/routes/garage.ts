@@ -53,7 +53,7 @@ module Route {
 
         takepicture(req: express.Request, res: express.Response, next: express.NextFunction) {
             let child = exec("fswebcam -r 1280×720 garage.jpg", function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error)
+                if (error) {
                     console.log(error);
                 }
                 else {
