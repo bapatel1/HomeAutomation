@@ -10,28 +10,30 @@ const exec = require("child_process").exec;
 const rpio = require("rpio");
 // const gpio = require("../helpers/rpi-gpio.js");
 // gpio.setup(7, gpio.DIR_OUT);
-
+class Task {
+  message:    string;
+  created: Date;
+}
 //*******************************************************************
 //GPIO Library used - https://github.com/jperkin/node-rpio
 //*******************************************************************
 module Route {
     export class Garage {
         on(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const tasks: any = [];
-            tasks.add({task: "Initializing PIN for OUTPUT", on: new Date()});
+            const tasks: Task[] = [];
+            tasks.push({message: "Initializing PIN for OUTPUT", created: new Date()});
             console.log("initializing PIN for OUTPUT");
             rpio.open(7, rpio.OUTPUT);
-            tasks.add({task: "Setting PIN for HIGH/1", on: new Date()});
+            tasks.push({message: "Setting PIN for HIGH/1", created: new Date()});
             console.log("Setting PIN for HIGH/1");
             rpio.write(7, rpio.HIGH);
-            tasks.add({task: "Waiting 1 sec.", on: new Date()});
+            tasks.push({message: "Waiting 1 sec.", created: new Date()});
             console.log("Waiting 1 sec.");
             rpio.msleep(1000);
-            tasks.add({task: "Setting PIN for LOW/0", on: new Date()});
+            tasks.push({message: "Setting PIN for LOW/0", created: new Date()});
             console.log("Setting PIN for LOW/0");
             rpio.write(7, rpio.LOW);
-            tasks.add({task: "Finishing Garage Door Operations", on: new Date()});
-            console.log("Finishing Garage Door Operations");
+            tasks.push({message: "Finishing Garage Door Operations", created: new Date()});
 
             return res.json(tasks);
         }
@@ -53,6 +55,7 @@ module Route {
             let child = exec("fswebcam -r 1280×720 garage.jpg", function(error: Error, stdout: Buffer, stderr: Buffer) {
                 if (error)
                     console.log(error);
+                }
                 else {
                     res.set({
                         "Content-Disposition": "attachment; filename=garage.jpg",
