@@ -8,16 +8,17 @@ import * as path from "path";
 
 const exec = require("child_process").exec;
 const rpio = require("rpio");
+
 const config = require("config");
 console.log("Config value - ");
 console.log(config.get("api.garage.pin"));
+const PIN = config.get("api.garage.pin");
 
-// const gpio = require("../helpers/rpi-gpio.js");
-// gpio.setup(7, gpio.DIR_OUT);
 class Task {
   message:    string;
   created: Date;
 }
+
 //*******************************************************************
 //GPIO Library used - https://github.com/jperkin/node-rpio
 //*******************************************************************
@@ -27,16 +28,16 @@ module Route {
             const tasks: Task[] = [];
             tasks.push({message: "Initializing PIN for OUTPUT", created: new Date()});
             console.log("initializing PIN for OUTPUT");
-            rpio.open(7, rpio.OUTPUT);
+            rpio.open(PIN, rpio.OUTPUT);
             tasks.push({message: "Setting PIN for HIGH/1", created: new Date()});
             console.log("Setting PIN for HIGH/1");
-            rpio.write(7, rpio.HIGH);
+            rpio.write(PIN, rpio.HIGH);
             tasks.push({message: "Waiting 1 sec.", created: new Date()});
             console.log("Waiting 1 sec.");
             rpio.msleep(1000);
             tasks.push({message: "Setting PIN for LOW/0", created: new Date()});
             console.log("Setting PIN for LOW/0");
-            rpio.write(7, rpio.LOW);
+            rpio.write(PIN, rpio.LOW);
             tasks.push({message: "Finishing Garage Door Operations", created: new Date()});
 
             return res.json(tasks);
