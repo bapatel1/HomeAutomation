@@ -43,10 +43,11 @@ rfSniffer.on ("data", function ( data:JSON ) {
           from: "" + config.get("api.garage.sensor.textfrom"),
           body: "" + config.get("api.garage.sensor.message")
     });
-    */
+
     console.log("Text Sent!");
     console.log("---------------------------------");
   }
+  */
 });
 
 
