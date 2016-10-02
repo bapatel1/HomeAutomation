@@ -12,8 +12,6 @@ const rpio = require("rpio");
 
 
 const config = require("config");
-console.log("Config value - ");
-console.log(config.get("api.garage.pin"));
 const PIN = config.get("api.garage.pin");
 
 /* Following code is for reading garage door sensor
@@ -32,9 +30,11 @@ const rpi433 = require("rpi-433"),
 const twilio = require("twilio");
 const client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
 // Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on ("data", function ( data:any ) {
+rfSniffer.on ("data", function ( data:JSON ) {
   console.log("---------------------------------");
-  console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+  console.log(data);
+  //console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+  /*
   if (data.code === "" + config.get("api.garage.sensor.receivercode")) {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
@@ -43,6 +43,7 @@ rfSniffer.on ("data", function ( data:any ) {
           from: "" + config.get("api.garage.sensor.textfrom"),
           body: "" + config.get("api.garage.sensor.message")
     });
+    */
     console.log("Text Sent!");
     console.log("---------------------------------");
   }
