@@ -38,7 +38,7 @@ rfSniffer.on ("data", function ( data:RFData ) {
   console.log(data);
   console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
 
-  if (data.code === config.get("api.garage.sensor.receivercode").toString()) {
+  if (data.code === "5592405") {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
      client.sendMessage({
