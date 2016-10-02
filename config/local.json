@@ -1,7 +1,15 @@
 {
   "api":{
     "garage":{
-      "pin":"7"
+      "pin":"7",
+      "sensor":{
+        "accountsid" : "AC00f7cf2db0964163965f281c59d0b325",
+        "authtoken" : "8cfca19aafb69b43beffa22f0101b51e",
+        "textto" : "+18482608360",
+        "textfrom" : "+18482604008",
+        "message" : "Hey, looks like some activity on Garage Door!",
+        "receivercode" : "5592405"
+      }
     }
   }
 }

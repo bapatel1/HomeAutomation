@@ -25,6 +25,7 @@
     "moment": "^2.15.0",
     "morgan": "^1.7.0",
     "rpio": "^0.9.12",
+    "twilio": "^2.11.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {

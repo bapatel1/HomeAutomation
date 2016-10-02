@@ -44,7 +44,7 @@ class HttpServer {
         this.router = express.Router();
         var garage: garageRouter.Garage = new garageRouter.Garage();
         this.router.get("/on", garage.on.bind(garage.on));
-        this.router.get("/off", garage.off.bind(garage.off));
+        this.router.get("/sensor", garage.sensor.bind(garage.sensor));
         this.router.get("/takepicture", garage.takepicture.bind(garage.takepicture));
         this.app.use("/api/garage", this.router);
     }
