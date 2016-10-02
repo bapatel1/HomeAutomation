@@ -21,7 +21,10 @@ const PIN = config.get("api.garage.pin");
  We are using Twilio to send SMS/Text to cellphone.
  Every values are in config.
  */
-
+class RFData {
+  code: string;
+  pulseLength : string;
+}
 const rpi433 = require("rpi-433"),
     rfSniffer = rpi433.sniffer({
         pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
@@ -30,11 +33,11 @@ const rpi433 = require("rpi-433"),
 const twilio = require("twilio");
 const client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
 // Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on ("data", function ( data:JSON ) {
+rfSniffer.on ("data", function ( data:RFData ) {
   console.log("---------------------------------");
   console.log(data);
-  //console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
-  /*
+  console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+
   if (data.code === "" + config.get("api.garage.sensor.receivercode")) {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
@@ -47,7 +50,7 @@ rfSniffer.on ("data", function ( data:JSON ) {
     console.log("Text Sent!");
     console.log("---------------------------------");
   }
-  */
+
 });
 
 
