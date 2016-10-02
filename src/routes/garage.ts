@@ -35,7 +35,7 @@ const client = twilio(config.get("api.garage.sensor.accountsid"), config.get("ap
 rfSniffer.on ("data", function ( data:any ) {
   console.log("---------------------------------");
   console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
-  if (data.code === config.get("api.config.sensor.receivercode")) {
+  if (data.code === config.get("api.garage.sensor.receivercode")) {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
      client.sendMessage({
