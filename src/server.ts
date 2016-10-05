@@ -55,7 +55,7 @@ class HttpServer {
     private ZAPRoutes() {
         this.router = express.Router();
         var zap: zapRouter.Zap = new zapRouter.Zap();
-        this.router.get("/button1", zap.button1.bind(zap.button1));
+        this.router.get("/button1/:val", zap.button1.bind(zap.button1));
         this.router.get("/button2", zap.button2.bind(zap.button2));
         this.router.get("/button3", zap.button3.bind(zap.button3));
         this.router.get("/button4", zap.button4.bind(zap.button4));

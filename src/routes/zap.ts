@@ -6,10 +6,8 @@ import * as events from "events";
 import * as fs from "fs";
 import * as path from "path";
 
-
 const exec = require("child_process").exec;
 const rpio = require("rpio");
-
 
 const config = require("config");
 const PIN = config.get("api.garage.pin");
@@ -24,6 +22,7 @@ module Route {
   export class Zap {
     button1(req: express.Request, res: express.Response, next: express.NextFunction){
       console.log("Button 1 is pressed.");
+      res.send (req.params);
     }
 
     button2(req: express.Request, res: express.Response, next: express.NextFunction){
