@@ -27,6 +27,7 @@ class HttpServer {
 
         //configure routes
         this.GarageRoutes();
+        this.ZAPRoutes();
         this.PiRoutes();
     }
     private ExpressConfiguration() {
