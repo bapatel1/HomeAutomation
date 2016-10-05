@@ -1,19 +1,10 @@
 /// <reference path='../typings/tsd.d.ts' />
-
 "use strict";
-import * as express from "express";
-import * as events from "events";
-import * as fs from "fs";
-import * as path from "path";
-
-
-const exec = require("child_process").exec;
-const rpio = require("rpio");
-
-
-const config = require("config");
-const PIN = config.get("api.garage.pin");
-
+var path = require("path");
+var exec = require("child_process").exec;
+var rpio = require("rpio");
+var config = require("config");
+var PIN = config.get("api.garage.pin");
 /* Following code is for reading garage door sensor
  We have RF 433Mhz Door sensor for Garaga Door.
  We are using Libaray called- "rpi-433".
@@ -21,55 +12,49 @@ const PIN = config.get("api.garage.pin");
  We are using Twilio to send SMS/Text to cellphone.
  Every values are in config.
  */
-class RFData {
-  code: string;
-  pulseLength : string;
-}
-const rpi433 = require("rpi-433"),
-    rfSniffer = rpi433.sniffer({
-        pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-        debounceDelay: 500          //Wait 500ms before reading another code
-    });
-
-const twilio = require("twilio");
-const client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
-
-
-
-// Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on ("data", function ( data:RFData ) {
-  console.log("---------------------------------");
-  console.log(data);
-  console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
-
-  if (data.code === "5592405") {
-    // Send the text message.
-     console.log("Code Match Found. Now sending Text");
-     client.sendMessage({
-          to: "" + config.get("api.garage.sensor.textto"),
-          from: "" + config.get("api.garage.sensor.textfrom"),
-          body: "" + config.get("api.garage.sensor.message")
-    });
-
-    console.log("Text Sent!");
-    console.log("---------------------------------");
-  }
-
+var RFData = (function () {
+    function RFData() {
+    }
+    return RFData;
+}());
+var rpi433 = require("rpi-433"), rfSniffer = rpi433.sniffer({
+    pin: 2,
+    debounceDelay: 500 //Wait 500ms before reading another code
 });
-
-
-class Task {
-    message: string;
-    created: Date;
-}
-
+var twilio = require("twilio");
+var client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
+// Receive (data is like {code: xxx, pulseLength: xxx})
+rfSniffer.on("data", function (data) {
+    console.log("---------------------------------");
+    console.log(data);
+    console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+    if (data.code === "5592405") {
+        // Send the text message.
+        console.log("Code Match Found. Now sending Text");
+        client.sendMessage({
+            to: "" + config.get("api.garage.sensor.textto"),
+            from: "" + config.get("api.garage.sensor.textfrom"),
+            body: "" + config.get("api.garage.sensor.message")
+        });
+        console.log("Text Sent!");
+        console.log("---------------------------------");
+    }
+});
+var Task = (function () {
+    function Task() {
+    }
+    return Task;
+}());
 //*******************************************************************
 //GPIO Library used - https://github.com/jperkin/node-rpio
 //*******************************************************************
-module Route {
-    export class Garage {
-        on(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const tasks: Task[] = [];
+var Route;
+(function (Route) {
+    var Garage = (function () {
+        function Garage() {
+        }
+        Garage.prototype.on = function (req, res, next) {
+            var tasks = [];
             tasks.push({ message: "Initializing PIN for OUTPUT", created: new Date() });
             console.log("initializing PIN for OUTPUT");
             rpio.open(PIN, rpio.OUTPUT);
@@ -83,12 +68,10 @@ module Route {
             console.log("Setting PIN for LOW/0");
             rpio.write(PIN, rpio.LOW);
             tasks.push({ message: "Finishing Garage Door Operations", created: new Date() });
-
             return res.json(tasks);
-        }
-
-        takepicture(req: express.Request, res: express.Response, next: express.NextFunction) {
-            let child = exec("fswebcam -r 1280×720 garage.jpg", function(error: Error, stdout: Buffer, stderr: Buffer) {
+        };
+        Garage.prototype.takepicture = function (req, res, next) {
+            var child = exec("fswebcam -r 1280×720 garage.jpg", function (error, stdout, stderr) {
                 if (error) {
                     console.log(error);
                 }
@@ -100,7 +83,9 @@ module Route {
                     return res.sendFile(path.resolve(__dirname + "/../../garage.jpg"));
                 }
             });
-        }
-    }
-}
-export = Route;
+        };
+        return Garage;
+    }());
+    Route.Garage = Garage;
+})(Route || (Route = {}));
+module.exports = Route;
