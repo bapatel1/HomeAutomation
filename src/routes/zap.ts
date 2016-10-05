@@ -43,18 +43,82 @@ module Route {
 
         button2(req: express.Request, res: express.Response, next: express.NextFunction) {
             console.log("Button 2 is pressed.");
+            if (req.params.val === "1") {
+                rfEmitter.sendCode(4199875, function (error: string , stdout: any) {   //Send 1234
+                    if (!error) {
+                       console.log(stdout); //Should display code
+                       res.send("Switch ON");
+                     }
+                });
+
+            } else {
+              rfEmitter.sendCode(4199884, function (error: string , stdout: any) {   //Send 1234
+                  if (!error) {
+                     console.log(stdout); //Should display code
+                     res.send("Switch OFF");
+                   }
+              });
+            }
         }
 
         button3(req: express.Request, res: express.Response, next: express.NextFunction) {
             console.log("Button 3 is pressed.");
+            if (req.params.val === "1") {
+                rfEmitter.sendCode(4200195, function (error: string , stdout: any) {   //Send 1234
+                    if (!error) {
+                       console.log(stdout); //Should display code
+                       res.send("Switch ON");
+                     }
+                });
+
+            } else {
+              rfEmitter.sendCode(4200204, function (error: string , stdout: any) {   //Send 1234
+                  if (!error) {
+                     console.log(stdout); //Should display code
+                     res.send("Switch OFF");
+                   }
+              });
+            }
         }
 
         button4(req: express.Request, res: express.Response, next: express.NextFunction) {
             console.log("Button 4 is pressed.");
+            if (req.params.val === "1") {
+                rfEmitter.sendCode(4201731, function (error: string , stdout: any) {   //Send 1234
+                    if (!error) {
+                       console.log(stdout); //Should display code
+                       res.send("Switch ON");
+                     }
+                });
+
+            } else {
+              rfEmitter.sendCode(4201740, function (error: string , stdout: any) {   //Send 1234
+                  if (!error) {
+                     console.log(stdout); //Should display code
+                     res.send("Switch OFF");
+                   }
+              });
+            }
         }
 
         button5(req: express.Request, res: express.Response, next: express.NextFunction) {
             console.log("Button 5 is pressed.");
+            if (req.params.val === "1") {
+                rfEmitter.sendCode(4207875, function (error: string , stdout: any) {   //Send 1234
+                    if (!error) {
+                       console.log(stdout); //Should display code
+                       res.send("Switch ON");
+                     }
+                });
+
+            } else {
+              rfEmitter.sendCode(4207884, function (error: string , stdout: any) {   //Send 1234
+                  if (!error) {
+                     console.log(stdout); //Should display code
+                     res.send("Switch OFF");
+                   }
+              });
+            }
         }
     }
 }
