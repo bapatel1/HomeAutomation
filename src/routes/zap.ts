@@ -20,24 +20,29 @@ var rpi433    = require("rpi-433"),
 
 module Route {
   export class Zap {
-    button1(req: express.Request, res: express.Response, next: express.NextFunction){
+    button1 (req: express.Request, res: express.Response, next: express.NextFunction) {
       console.log("Button 1 is pressed.");
       res.send (req.params);
+      if ( req.params.val === 1) {
+        res.send ("Switch ON");
+      } else {
+        res.send ("Switch OFF");
+      }
     }
 
-    button2(req: express.Request, res: express.Response, next: express.NextFunction){
+    button2 (req: express.Request, res: express.Response, next: express.NextFunction) {
       console.log("Button 2 is pressed.");
     }
 
-    button3(req: express.Request, res: express.Response, next: express.NextFunction){
+    button3 (req: express.Request, res: express.Response, next: express.NextFunction) {
       console.log("Button 3 is pressed.");
     }
 
-    button4(req: express.Request, res: express.Response, next: express.NextFunction){
+    button4 (req: express.Request, res: express.Response, next: express.NextFunction) {
       console.log("Button 4 is pressed.");
     }
 
-    button5(req: express.Request, res: express.Response, next: express.NextFunction){
+    button5 (req: express.Request, res: express.Response, next: express.NextFunction) {
       console.log("Button 5 is pressed.");
     }
   }
