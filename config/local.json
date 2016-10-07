@@ -10,6 +10,58 @@
         "message" : "Hey, looks like some activity on Garage Door!",
         "receivercode" : "5592405"
       }
+    },
+    "zap":{
+      "button1":{
+          "on":{
+            "code":"4199731",
+            "pulseLength":"350"
+          },
+          "off":{
+            "code":"4199740",
+            "pulseLength":"350"
+          }
+      },
+      "button2":{
+        "on":{
+          "code":"4199875",
+          "pulseLength":"350"
+        },
+        "off":{
+          "code":"4199884",
+          "pulseLength":"350"
+        }
+      },
+      "button3":{
+        "on":{
+          "code":"4200195",
+          "pulseLength":"350"
+        },
+        "off":{
+          "code":"4200204",
+          "pulseLength":"350"
+        }
+      },
+      "button4":{
+        "on":{
+          "code":"4201731",
+          "pulseLength":"350"
+        },
+        "off":{
+          "code":"4201740",
+          "pulseLength":"350"
+        }
+      },
+      "button5":{
+        "on":{
+          "code":"4207875",
+          "pulseLength":"350"
+        },
+        "off":{
+          "code":"4207884",
+          "pulseLength":"350"
+        }
+      }
     }
   }
 }
