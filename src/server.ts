@@ -60,6 +60,7 @@ class HttpServer {
         this.router.get("/button3/:val", zap.button3.bind(zap.button3));
         this.router.get("/button4/:val", zap.button4.bind(zap.button4));
         this.router.get("/button5/:val", zap.button5.bind(zap.button5));
+        this.router.get("/sniffer", zap.sniffer.bind(zap.sniffer));
         this.app.use("/api/zap", this.router);
     }
 
