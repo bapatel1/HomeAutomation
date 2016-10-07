@@ -45,7 +45,7 @@ module Route {
             });
         }
 
-        public button1(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button1 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 1 is pressed.");
             //res.send (req.params);
             if (req.params.val === "1") {
