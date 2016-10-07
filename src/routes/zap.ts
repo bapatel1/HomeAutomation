@@ -29,7 +29,7 @@ class RF {
 
 module Route {
     export class Zap {
-        public transmit (code: number, button: string, res: express.Response) {
+        public transmit = (onoff: number, code: number, button: string, res: express.Response) => {
           rfEmitter.sendCode(code, function (error: string , stdout: any) {   //Send 1234
               if (!error) {
                  console.log(stdout); //Should display code
@@ -56,7 +56,7 @@ module Route {
                 //        res.send("(Button 1) Switch ON");
                 //      }
                 // });
-                this.transmit (onCode, "Button-1", res);
+                this.transmit (+(req.params.val), onCode, "Button-1", res);
             } else {
               const offCode = +(config.get("api.zap.button1.off.code"));
               // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
@@ -65,7 +65,7 @@ module Route {
               //        res.send("(Button 1) Switch OFF");
               //      }
               // });
-              this.transmit (offCode, "Button-1", res);
+              this.transmit (+(req.params.val), offCode, "Button-1", res);
             }
         }
 
@@ -79,7 +79,7 @@ module Route {
                 //        res.send("(Button 2) Switch ON");
                 //      }
                 // });
-                this.transmit (onCode, "Button-2", res);
+                this.transmit (+(req.params.val), onCode, "Button-2", res);
             } else {
               const offCode = +(config.get("api.zap.button2.off.code"));
               // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
@@ -88,7 +88,7 @@ module Route {
               //        res.send("(Button 2) Switch OFF");
               //      }
               // });
-              this.transmit (offCode, "Button-2", res);
+              this.transmit (+(req.params.val), offCode, "Button-2", res);
             }
         }
 
