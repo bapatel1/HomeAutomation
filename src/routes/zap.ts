@@ -69,7 +69,7 @@ module Route {
             }
         }
 
-        button2(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button2 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 2 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button2.on.code"));
@@ -92,7 +92,7 @@ module Route {
             }
         }
 
-        button3(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button3 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 3 is pressed.");
             if (req.params.val === "1") {
                 rfEmitter.sendCode(4200195, function(error: string, stdout: any) {   //Send 1234
@@ -112,7 +112,7 @@ module Route {
             }
         }
 
-        button4(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button4 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 4 is pressed.");
             if (req.params.val === "1") {
                 rfEmitter.sendCode(4201731, function(error: string, stdout: any) {   //Send 1234
@@ -132,7 +132,7 @@ module Route {
             }
         }
 
-        button5(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button5 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 5 is pressed.");
             if (req.params.val === "1") {
                 rfEmitter.sendCode(4207875, function(error: string, stdout: any) {   //Send 1234
