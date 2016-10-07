@@ -29,7 +29,7 @@ class RF {
 
 module Route {
     export class Zap {
-        transmit (code: number, button: string, res: express.Response) {
+        public transmit (code: number, button: string, res: express.Response) {
           rfEmitter.sendCode(code, function (error: string , stdout: any) {   //Send 1234
               if (!error) {
                  console.log(stdout); //Should display code
@@ -38,14 +38,14 @@ module Route {
           });
         }
 
-        sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
             // Receive (data is like {code: xxx, pulseLength: xxx})
             rfSniffer.on("data", function(data : RF) {
                 console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
             });
         }
 
-        button1(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button1(req: express.Request, res: express.Response, next: express.NextFunction) {
             console.log("Button 1 is pressed.");
             //res.send (req.params);
             if (req.params.val === "1") {
