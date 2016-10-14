@@ -73,13 +73,7 @@ module Route {
             console.log("Button 2 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button2.on.code"));
-                //this.transmit(+(req.params.val), onCode, "Button-2", res);
-                rfEmitter.sendCode(onCode, function(error: any, stdout: any){
-                   if (!error) {
-                     console.log("Button-2 is On Now");
-                     res.send ("Button-2 is On Now");
-                   }
-                });
+                this.transmit(+(req.params.val), "ON", onCode, "Button-2", res);
             } else {
                 const offCode = +(config.get("api.zap.button2.off.code"));
                 this.transmit(+(req.params.val), "OFF", offCode, "Button-2", res);
