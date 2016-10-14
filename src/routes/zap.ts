@@ -29,11 +29,11 @@ class RF {
 
 module Route {
     export class Zap {
-        public transmit = (onoff: number, code: number, button: string, res: express.Response) => {
-            rfEmitter.sendCode(code, function(error: string, stdout: any) {   //Send 1234
+        public transmit = (onoff: number, action: string, code: number, button: string, res: express.Response) => {
+            rfEmitter.sendCode(code, function(error: any, stdout: any) {   //Send 1234
                 if (!error) {
                     console.log(stdout); //Should display code
-                    res.send("(" + button + ") Switch ON");
+                    res.send("(" + button + ") Switch " + action);
                 }
             });
         }
@@ -56,7 +56,7 @@ module Route {
                 //        res.send("(Button 1) Switch ON");
                 //      }
                 // });
-                this.transmit(+(req.params.val), onCode, "Button-1", res);
+                this.transmit(+(req.params.val), "ON" , onCode, "Button-1", res);
             } else {
                 const offCode = +(config.get("api.zap.button1.off.code"));
                 // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
@@ -65,7 +65,7 @@ module Route {
                 //        res.send("(Button 1) Switch OFF");
                 //      }
                 // });
-                this.transmit(+(req.params.val), offCode, "Button-1", res);
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-1", res);
             }
         }
 
@@ -82,7 +82,7 @@ module Route {
                 });
             } else {
                 const offCode = +(config.get("api.zap.button2.off.code"));
-                this.transmit(+(req.params.val), offCode, "Button-2", res);
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-2", res);
             }
         }
 
@@ -90,10 +90,10 @@ module Route {
             console.log("Button 3 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button3.on.code"));
-                this.transmit(+(req.params.val), onCode, "Button-3", res);
+                this.transmit(+(req.params.val), "ON", onCode, "Button-3", res);
             } else {
                 const offCode = +(config.get("api.zap.button3.off.code"));
-                this.transmit(+(req.params.val), offCode, "Button-3", res);
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-3", res);
             }
         }
 
@@ -101,10 +101,10 @@ module Route {
             console.log("Button 4 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button4.on.code"));
-                this.transmit(+(req.params.val), onCode, "Button-4", res);
+                this.transmit(+(req.params.val), "ON", onCode, "Button-4", res);
             } else {
                 const offCode = +(config.get("api.zap.button4.off.code"));
-                this.transmit(+(req.params.val), offCode, "Button-4", res);
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-4", res);
             }
         }
 
@@ -112,10 +112,10 @@ module Route {
             console.log("Button 5 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button5.on.code"));
-                this.transmit(+(req.params.val), onCode, "Button-5", res);
+                this.transmit(+(req.params.val), "ON", onCode, "Button-5", res);
             } else {
                 const offCode = +(config.get("api.zap.button5.off.code"));
-                this.transmit(+(req.params.val), offCode, "Button-5", res);
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-5", res);
             }
         }
     }
