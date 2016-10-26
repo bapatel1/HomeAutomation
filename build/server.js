@@ -7,6 +7,9 @@ var bodyParser = require("body-parser");
 var http = require("http");
 //Let's import your router files
 var garageRouter = require("./routes/garage");
+var maindoorRouter = require("./routes/maindoor");
+var backdoorRouter = require("./routes/backdoor");
+var kitchendoorRouter = require("./routes/kitchendoor");
 var piRouter = require("./routes/pi");
 var zapRouter = require("./routes/zap");
 var HttpServer = (function () {
@@ -16,7 +19,11 @@ var HttpServer = (function () {
         this.ExpressConfiguration();
         //configure routes
         this.GarageRoutes();
+        this.ZAPRoutes();
         this.PiRoutes();
+        this.MainDoorRoutes();
+        this.BackDoorRoutes();
+        this.KitchenDoorRoutes();
     }
     HttpServer.bootstrap = function () {
         return new HttpServer();
@@ -31,6 +38,24 @@ var HttpServer = (function () {
             next(err);
         });
     };
+    //MainDoor router
+    HttpServer.prototype.MainDoorRoutes = function () {
+        this.router = express.Router();
+        var main = new maindoorRouter.MainDoor();
+        this.app.use("/api/door/main", this.router);
+    };
+    //BackDoor router
+    HttpServer.prototype.BackDoorRoutes = function () {
+        this.router = express.Router();
+        var back = new backdoorRouter.BackDoor();
+        this.app.use("/api/door/back", this.router);
+    };
+    //KitchenDoor router
+    HttpServer.prototype.KitchenDoorRoutes = function () {
+        this.router = express.Router();
+        var kitchen = new kitchendoorRouter.KitchenDoor();
+        this.app.use("/api/door/kitchen", this.router);
+    };
     //Garage automation router
     HttpServer.prototype.GarageRoutes = function () {
         this.router = express.Router();
@@ -44,11 +69,12 @@ var HttpServer = (function () {
     HttpServer.prototype.ZAPRoutes = function () {
         this.router = express.Router();
         var zap = new zapRouter.Zap();
-        this.router.get("/button1", zap.button1.bind(zap.button1));
-        this.router.get("/button2", zap.button2.bind(zap.button2));
-        this.router.get("/button3", zap.button3.bind(zap.button3));
-        this.router.get("/button4", zap.button4.bind(zap.button4));
-        this.router.get("/button5", zap.button5.bind(zap.button5));
+        this.router.get("/button1/:val", zap.button1.bind(zap.button1));
+        this.router.get("/button2/:val", zap.button2.bind(zap.button2));
+        this.router.get("/button3/:val", zap.button3.bind(zap.button3));
+        this.router.get("/button4/:val", zap.button4.bind(zap.button4));
+        this.router.get("/button5/:val", zap.button5.bind(zap.button5));
+        this.router.get("/sniffer", zap.sniffer.bind(zap.sniffer));
         this.app.use("/api/zap", this.router);
     };
     HttpServer.prototype.PiRoutes = function () {

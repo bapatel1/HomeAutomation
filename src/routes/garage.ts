@@ -38,7 +38,7 @@ const client = twilio(config.get("api.twilio.accountsid"), config.get("api.twili
 rfSniffer.on ("data", function ( data: RFData ) {
   console.log("---------------------------------");
   console.log(data);
-  console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+  console.log("[GarageDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
 
   if (data.code === "5592405") {
     // Send the text message.

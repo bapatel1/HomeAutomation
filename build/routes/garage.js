@@ -22,7 +22,7 @@ var rpi433 = require("rpi-433"), rfSniffer = rpi433.sniffer({
     debounceDelay: 500 //Wait 500ms before reading another code
 });
 var twilio = require("twilio");
-var client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
+var client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
 // Receive (data is like {code: xxx, pulseLength: xxx})
 rfSniffer.on("data", function (data) {
     console.log("---------------------------------");
@@ -32,8 +32,8 @@ rfSniffer.on("data", function (data) {
         // Send the text message.
         console.log("Code Match Found. Now sending Text");
         client.sendMessage({
-            to: "" + config.get("api.garage.sensor.textto"),
-            from: "" + config.get("api.garage.sensor.textfrom"),
+            to: "" + config.get("api.twilio.textto"),
+            from: "" + config.get("api.twilio.textfrom"),
             body: "" + config.get("api.garage.sensor.message")
         });
         console.log("Text Sent!");
