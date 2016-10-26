@@ -9,6 +9,9 @@ import * as http from "http";
 
 //Let's import your router files
 import * as garageRouter from "./routes/garage";
+import * as maindoorRouter from "./routes/maindoor";
+import * as backdoorRouter from "./routes/backdoor";
+import * as kitchendoorRouter from "./routes/kitchendoor";
 import * as piRouter from "./routes/pi";
 import * as zapRouter from "./routes/zap";
 
@@ -29,6 +32,9 @@ class HttpServer {
         this.GarageRoutes();
         this.ZAPRoutes();
         this.PiRoutes();
+        this.MainDoorRoutes();
+        this.BackDoorRoutes();
+        this.KitchenDoorRoutes();
     }
     private ExpressConfiguration() {
       this.app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,6 +45,12 @@ class HttpServer {
           err.status = 404;
           next(err);
       });
+    }
+
+    //MainDoor router
+    private MainDoorRoutes() {
+      this.router = express.Router();
+      
     }
 
     //Garage automation router

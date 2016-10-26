@@ -32,12 +32,10 @@ const rpi433 = require("rpi-433"),
     });
 
 const twilio = require("twilio");
-const client = twilio(config.get("api.garage.sensor.accountsid"), config.get("api.garage.sensor.authtoken"));
-
-
+const client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
 
 // Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on ("data", function ( data:RFData ) {
+rfSniffer.on ("data", function ( data: RFData ) {
   console.log("---------------------------------");
   console.log(data);
   console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
@@ -46,8 +44,8 @@ rfSniffer.on ("data", function ( data:RFData ) {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
      client.sendMessage({
-          to: "" + config.get("api.garage.sensor.textto"),
-          from: "" + config.get("api.garage.sensor.textfrom"),
+          to: "" + config.get("api.twilio.textto"),
+          from: "" + config.get("api.twilio.textfrom"),
           body: "" + config.get("api.garage.sensor.message")
     });
 
@@ -91,8 +89,7 @@ module Route {
             let child = exec("fswebcam -r 1280×720 garage.jpg", function(error: Error, stdout: Buffer, stderr: Buffer) {
                 if (error) {
                     console.log(error);
-                }
-                else {
+                } else {
                     res.set({
                         "Content-Disposition": "attachment; filename=garage.jpg",
                         "content-type": "image/jpg"
