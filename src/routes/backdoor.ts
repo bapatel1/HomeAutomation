@@ -50,3 +50,10 @@ rfSniffer.on ("data", function ( data: RFData ) {
   }
 
 });
+
+module Route {
+  export class BackDoor {
+
+  }
+}
+export = Route;

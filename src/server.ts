@@ -37,22 +37,37 @@ class HttpServer {
         this.KitchenDoorRoutes();
     }
     private ExpressConfiguration() {
-      this.app.use(bodyParser.urlencoded({ extended: true }));
-      this.app.use(bodyParser.json());
-      // catch 404 and forward to error handler
-      this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-          var error = new Error("Not Found");
-          err.status = 404;
-          next(err);
-      });
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json());
+        // catch 404 and forward to error handler
+        this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+            var error = new Error("Not Found");
+            err.status = 404;
+            next(err);
+        });
     }
 
     //MainDoor router
     private MainDoorRoutes() {
-      this.router = express.Router();
-      
+        this.router = express.Router();
+        var main: maindoorRouter.MainDoor = new maindoorRouter.MainDoor();
+        this.app.use("/api/door/main", this.router);
     }
 
+    //BackDoor router
+    private BackDoorRoutes() {
+        this.router = express.Router();
+        var back: backdoorRouter.BackDoor = new backdoorRouter.BackDoor();
+        this.app.use("/api/door/back", this.router);
+    }
+
+
+    //KitchenDoor router
+    private KitchenDoorRoutes() {
+        this.router = express.Router();
+        var kitchen: kitchendoorRouter.KitchenDoor = new kitchendoorRouter.KitchenDoor();
+        this.app.use("/api/door/kitchen", this.router);
+    }
     //Garage automation router
     private GarageRoutes() {
         this.router = express.Router();
