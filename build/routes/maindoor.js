@@ -24,8 +24,8 @@ var client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.
 rfSniffer.on("data", function (data) {
     console.log("---------------------------------");
     console.log(data);
-    console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (data.code === "6116693") {
+    console.log("[MainDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+    if (+(data.code) === 6116693) {
         // Send the text message.
         console.log("Code Match Found. Now sending Text");
         client.sendMessage({
