@@ -10,7 +10,7 @@ const exec = require("child_process").exec;
 const rpio = require("rpio");
 
 const config = require("config");
-const PIN = config.get("api.garage.pin");
+//const PIN = config.get("api.garage.pin");
 
 const rpi433 = require("rpi-433"),
     rfSniffer = rpi433.sniffer({
@@ -19,33 +19,33 @@ const rpi433 = require("rpi-433"),
     }),
     rfEmitter = rpi433.emitter({
         pin: 0,                     //Send through GPIO 0 (or Physical PIN 11)
-        pulseLength: 350            //Send the code with a 350 pulse length
+        pulseLength: 186            //Send the code with a 350 pulse length
     });
 
 class RF {
-  code : string;
-  pulseLength : string;
+    code: string;
+    pulseLength: string;
 }
 
 module Route {
     export class Zap {
-        transmit (code: number, button: string, res: express.Response) {
-          rfEmitter.sendCode(code, function (error: string , stdout: any) {   //Send 1234
-              if (!error) {
-                 console.log(stdout); //Should display code
-                 res.send("(" + button + ") Switch ON");
-               }
-          });
+        public transmit = (onoff: number, action: string, code: number, button: string, res: express.Response) => {
+            rfEmitter.sendCode(code, function(error: any, stdout: any) {   //Send 1234
+                if (!error) {
+                    console.log(stdout); //Should display code
+                    res.send("(" + button + ") Switch " + action);
+                }
+            });
         }
 
-        sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
             // Receive (data is like {code: xxx, pulseLength: xxx})
-            rfSniffer.on("data", function(data : RF) {
+            rfSniffer.on("data", function(data: RF) {
                 console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
             });
         }
 
-        button1(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button1 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 1 is pressed.");
             //res.send (req.params);
             if (req.params.val === "1") {
@@ -56,99 +56,60 @@ module Route {
                 //        res.send("(Button 1) Switch ON");
                 //      }
                 // });
-                this.transmit (onCode, "Button-1", res);
+                this.transmit(+(req.params.val), "ON" , onCode, "Button-1", res);
             } else {
-              const offCode = +(config.get("api.zap.button1.off.code"));
-              // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
-              //     if (!error) {
-              //        console.log(stdout); //Should display code
-              //        res.send("(Button 1) Switch OFF");
-              //      }
-              // });
-              this.transmit (offCode, "Button-1", res);
+                const offCode = +(config.get("api.zap.button1.off.code"));
+                // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
+                //     if (!error) {
+                //        console.log(stdout); //Should display code
+                //        res.send("(Button 1) Switch OFF");
+                //      }
+                // });
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-1", res);
             }
         }
 
-        button2(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button2 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 2 is pressed.");
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button2.on.code"));
-                // rfEmitter.sendCode(onCode, function (error: string , stdout: any) {   //Send 1234
-                //     if (!error) {
-                //        console.log(stdout); //Should display code
-                //        res.send("(Button 2) Switch ON");
-                //      }
-                // });
-                this.transmit (onCode, "Button-2", res);
+                this.transmit(+(req.params.val), "ON", onCode, "Button-2", res);
             } else {
-              const offCode = +(config.get("api.zap.button2.off.code"));
-              // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
-              //     if (!error) {
-              //        console.log(stdout); //Should display code
-              //        res.send("(Button 2) Switch OFF");
-              //      }
-              // });
-              this.transmit (offCode, "Button-2", res);
+                const offCode = +(config.get("api.zap.button2.off.code"));
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-2", res);
             }
         }
 
-        button3(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button3 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 3 is pressed.");
             if (req.params.val === "1") {
-                rfEmitter.sendCode(4200195, function(error: string, stdout: any) {   //Send 1234
-                    if (!error) {
-                       console.log(stdout); //Should display code
-                       res.send("(Button 3) Switch ON");
-                     }
-                });
-
+                const onCode = +(config.get("api.zap.button3.on.code"));
+                this.transmit(+(req.params.val), "ON", onCode, "Button-3", res);
             } else {
-              rfEmitter.sendCode(4200204, function (error: string , stdout: any) {   //Send 1234
-                  if (!error) {
-                     console.log(stdout); //Should display code
-                     res.send("(Button 3) Switch OFF");
-                   }
-              });
+                const offCode = +(config.get("api.zap.button3.off.code"));
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-3", res);
             }
         }
 
-        button4(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button4 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 4 is pressed.");
             if (req.params.val === "1") {
-                rfEmitter.sendCode(4201731, function(error: string, stdout: any) {   //Send 1234
-                    if (!error) {
-                       console.log(stdout); //Should display code
-                       res.send("(Button 4) Switch ON");
-                     }
-                });
-
+                const onCode = +(config.get("api.zap.button4.on.code"));
+                this.transmit(+(req.params.val), "ON", onCode, "Button-4", res);
             } else {
-              rfEmitter.sendCode(4201740, function (error: string , stdout: any) {   //Send 1234
-                  if (!error) {
-                     console.log(stdout); //Should display code
-                     res.send("(Button 4) Switch OFF");
-                   }
-              });
+                const offCode = +(config.get("api.zap.button4.off.code"));
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-4", res);
             }
         }
 
-        button5(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public button5 = (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log("Button 5 is pressed.");
             if (req.params.val === "1") {
-                rfEmitter.sendCode(4207875, function(error: string, stdout: any) {   //Send 1234
-                    if (!error) {
-                       console.log(stdout); //Should display code
-                       res.send("(Button 5) Switch ON");
-                     }
-                });
-
+                const onCode = +(config.get("api.zap.button5.on.code"));
+                this.transmit(+(req.params.val), "ON", onCode, "Button-5", res);
             } else {
-              rfEmitter.sendCode(4207884, function (error: string , stdout: any) {   //Send 1234
-                  if (!error) {
-                     console.log(stdout); //Should display code
-                     res.send("(Button 5) Switch OFF");
-                   }
-              });
+                const offCode = +(config.get("api.zap.button5.off.code"));
+                this.transmit(+(req.params.val), "OFF", offCode, "Button-5", res);
             }
         }
     }
