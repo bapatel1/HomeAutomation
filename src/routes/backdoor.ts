@@ -36,7 +36,7 @@ rfSniffer.on ("data", function ( data: RFData ) {
   console.log(data);
   console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
 
-  if (+(data.code) === 13981013) {
+  if (+(data.code) === +(config.get("api.backdoor.sensor.receivercode"))) {
     // Send the text message.
      console.log("Code Match Found. Now sending Text");
      client.sendMessage({
