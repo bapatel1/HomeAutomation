@@ -2,7 +2,7 @@
 .logs
 logs
 .idea
-
+config
 # Global Node.js .gitignore settings
 
 # Logs
