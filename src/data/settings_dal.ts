@@ -2,7 +2,7 @@
 
 import * as mongoose from "mongoose";
 import * as Settings from "../model/settings";
-mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation");
+
 
 export class SettingsDAL {
 
