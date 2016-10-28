@@ -5,7 +5,7 @@ import * as mongoose from "mongoose";
 
 const settingsSchema = new mongoose.Schema({
   key: String,
-  value: String
+  value: Object
 });
 
 const Settings = mongoose.model("settings", settingsSchema);
