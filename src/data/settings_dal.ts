@@ -31,7 +31,7 @@ export class SettingsDAL {
                     console.log("Found record to Override...");
                     setting.value = newvalue;
                     console.log(setting);
-                    Settings.save(setting);
+                    setting.save();
                 }
             });
         } catch (e) {
