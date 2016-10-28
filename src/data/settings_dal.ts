@@ -24,7 +24,7 @@ export class SettingsDAL {
 
     overrideSettings(key: string, newvalue: any) {
         try {
-            Settings.find({ key: key }, (err: any, setting: any) => {
+            Settings.findOne({ key: key }, (err: any, setting: any) => {
                 if (err) {
                     return { info: "Error during find settings by key", error: err };
                 } else {
