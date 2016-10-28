@@ -9,16 +9,16 @@ import * as path from "path";
 //Setting DataAccessLayer Code
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
-const _settings = _settingsDal.getSettings();
-const newTestSetting = {
-  info: "updated value",
-  data: "This is new updated result"
-};
-_settingsDal.overrideSettings("test", newTestSetting);
+// const _settings = _settingsDal.getSettings();
+// const newTestSetting = {
+//   info: "updated value",
+//   data: "This is new updated result"
+// };
+// _settingsDal.overrideSettings("test", newTestSetting);
 //---------------------------------------------------
 
 const config = require("config");
-const PIN = config.get("api.backdoor.pin");
+//const PIN = config.get("api.backdoor.pin");
 
 /* Following code is for reading garage door sensor
  We have RF 433Mhz Door sensor for Garaga Door.
@@ -39,6 +39,8 @@ const rpi433 = require("rpi-433"),
     });
 
 const twilio = require("twilio");
+const twilioSettings = _settingsDal.getSettingsByKey("twilio");
+console.log(twilioSettings);
 const client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
 
 // Receive (data is like {code: xxx, pulseLength: xxx})

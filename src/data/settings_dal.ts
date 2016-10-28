@@ -11,7 +11,24 @@ export class SettingsDAL {
 
     public _settings = new Settings();
 
+    getSettingsByKey(key: string) {
+      try {
+        Settings.findOne({key: key}, (err: any, results: any) => {
+            if (err) {
+                return { info: "Error during find settings by KEY", error: err };
+            } else {
+                console.log(results);
+                return { info: "Settings by KEY found successfully ", data: results };
+            }
+        });
+      } catch (e) {
+        return {info: "Exception during find settings by KEY", error: e.message};
+      }
+    }
+
+
     getSettings() {
+      try {
         Settings.find({}, (err: any, results: any) => {
             if (err) {
                 return { info: "error during find settings", error: err };
@@ -20,6 +37,9 @@ export class SettingsDAL {
                 return { info: "Settings found successfully", data: results };
             }
         });
+      } catch (e) {
+        return {info: "Exception during find settings", error: e.message};
+      }
     }
 
     overrideSettings(key: string, newvalue: any) {
@@ -32,18 +52,11 @@ export class SettingsDAL {
                     setting.value = newvalue;
                     console.log(setting);
                     setting.save();
+                    return {info: "Successfully override settings", data : setting};
                 }
             });
         } catch (e) {
-            throw e;
+            return {info: "Exception during find settings by key", error: e.message};
         }
     }
 }
-
-// results.save ( (err: any) => {
-//   if (err) {
-//       return {info: "Error during updating settings by key", error: err};
-//   } else {
-//       return {info: "Settings Override successfully", data: key};
-//   }
-// });
