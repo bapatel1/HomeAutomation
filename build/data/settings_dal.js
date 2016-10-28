@@ -1,41 +1,43 @@
 /// <reference path="../typings/modules/mongoose/index.d.ts" />
-
-import * as mongoose from "mongoose";
-import * as Settings from "../model/settings";
+"use strict";
+var mongoose = require("mongoose");
+var Settings = require("../model/settings");
 mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation");
-
-export class SettingsDAL {
-
-    public _settings = new Settings();
-
-    getSettings() {
-        Settings.find({}, (err: any, results: any) => {
+var SettingsDAL = (function () {
+    function SettingsDAL() {
+        this._settings = new Settings();
+    }
+    SettingsDAL.prototype.getSettings = function () {
+        Settings.find({}, function (err, results) {
             if (err) {
                 return { info: "error during find settings", error: err };
-            } else {
+            }
+            else {
                 console.log(results);
                 return { info: "Settings found successfully", data: results };
             }
         });
-    }
-
-    overrideSettings(key: string, newvalue: any) {
+    };
+    SettingsDAL.prototype.overrideSettings = function (key, newvalue) {
         try {
-            Settings.find({ key: key }, (err: any, results: any) => {
+            Settings.find({ key: key }, function (err, results) {
                 if (err) {
                     return { info: "Error during find settings by key", error: err };
-                } else {
+                }
+                else {
                     console.log("Found record to Override...");
                     results.value = newvalue;
                     results.save();
                 }
             });
-        } catch (e) {
+        }
+        catch (e) {
             throw e;
         }
-    }
-}
-
+    };
+    return SettingsDAL;
+}());
+exports.SettingsDAL = SettingsDAL;
 // results.save ( (err: any) => {
 //   if (err) {
 //       return {info: "Error during updating settings by key", error: err};

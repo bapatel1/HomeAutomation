@@ -25,7 +25,7 @@ rfSniffer.on("data", function (data) {
     console.log("---------------------------------");
     console.log(data);
     console.log("[KitchenDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (data.code === "7689557") {
+    if (+(data.code) === +(config.get("api.kitchendoor.sensor.receivercode"))) {
         // Send the text message.
         console.log("Code Match Found. Now sending Text");
         client.sendMessage({

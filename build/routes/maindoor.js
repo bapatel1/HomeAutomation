@@ -25,7 +25,7 @@ rfSniffer.on("data", function (data) {
     console.log("---------------------------------");
     console.log(data);
     console.log("[MainDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (+(data.code) === 6116693) {
+    if (+(data.code) === +(config.get("api.maindoor.sensor.receivercode"))) {
         // Send the text message.
         console.log("Code Match Found. Now sending Text");
         client.sendMessage({

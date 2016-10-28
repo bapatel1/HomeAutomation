@@ -1,5 +1,10 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
+//Setting DataAccessLayer Code
+var settingsDal = require("../data/settings_dal");
+var _settingsDal = new settingsDal.SettingsDAL();
+var _settings = _settingsDal.getSettings();
+//---------------------------------------------------
 var config = require("config");
 var PIN = config.get("api.backdoor.pin");
 /* Following code is for reading garage door sensor
@@ -25,7 +30,7 @@ rfSniffer.on("data", function (data) {
     console.log("---------------------------------");
     console.log(data);
     console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (data.code === "13981013") {
+    if (+(data.code) === +(config.get("api.backdoor.sensor.receivercode"))) {
         // Send the text message.
         console.log("Code Match Found. Now sending Text");
         client.sendMessage({
