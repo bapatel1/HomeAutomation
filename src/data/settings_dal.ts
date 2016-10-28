@@ -3,7 +3,10 @@
 import * as mongoose from "mongoose";
 import * as Settings from "../model/settings";
 
-
+class SettingsTable {
+  key: String;
+  value: String;
+}
 export class SettingsDAL {
 
     public _settings = new Settings();
@@ -21,14 +24,14 @@ export class SettingsDAL {
 
     overrideSettings(key: string, newvalue: any) {
         try {
-            Settings.find({ key: key }, (err: any, results: any) => {
+            Settings.find({ key: key }, (err: any, setting: any) => {
                 if (err) {
                     return { info: "Error during find settings by key", error: err };
                 } else {
                     console.log("Found record to Override...");
-                    results.value = newvalue;
-                    console.log(results);
-                    //Settings.save(results);
+                    setting.value = newvalue;
+                    console.log(setting);
+                    Settings.save(setting);
                 }
             });
         } catch (e) {

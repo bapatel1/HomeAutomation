@@ -12,7 +12,7 @@ const _settingsDal = new settingsDal.SettingsDAL();
 const _settings = _settingsDal.getSettings();
 const newTestSetting = {
   info: "updated value",
-  data: "Thisis new updated result"
+  data: "This is new updated result"
 };
 _settingsDal.overrideSettings("test", newTestSetting);
 //---------------------------------------------------
