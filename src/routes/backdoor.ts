@@ -10,6 +10,11 @@ import * as path from "path";
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
 const _settings = _settingsDal.getSettings();
+const newTestSetting = {
+  info: "updated value",
+  data: "Thisis new updated result"
+};
+_settingsDal.overrideSettings("test", newTestSetting);
 //---------------------------------------------------
 
 const config = require("config");
