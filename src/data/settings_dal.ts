@@ -27,7 +27,7 @@ export class SettingsDAL {
                 } else {
                     console.log("Found record to Override...");
                     results.value = newvalue;
-                    results.save();
+                    Settings.save(results);
                 }
             });
         } catch (e) {
