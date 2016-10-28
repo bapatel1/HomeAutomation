@@ -1,11 +1,14 @@
 /// <reference path="typings/express/express.d.ts" />
 /// <reference path="typings/body-parser/body-parser.d.ts" />
+/// <reference path="typings/modules/mongoose/index.d.ts" />
 "use strict";
 //Let's import express and other necessary middleware
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as path from "path";
 import * as http from "http";
+import * as mongoose from "mongoose";
+mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation");
 
 //Let's import your router files
 import * as garageRouter from "./routes/garage";
