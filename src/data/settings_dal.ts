@@ -9,12 +9,13 @@ export class SettingsDAL {
   public _settings = new Settings();
 
   getSettings() {
-    Settings.find(err: any, results: any) {
+    Settings.find({},(err: any, results: any) => {
       if (err) {
         return {info: "error during find settings", error: err};
       } else {
+        console.log(results);
         return {info: "Settings found successfully", data: results};
       }
-    }
+    });
   }
 }

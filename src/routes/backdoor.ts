@@ -5,6 +5,10 @@ import * as express from "express";
 import * as events from "events";
 import * as fs from "fs";
 import * as path from "path";
+import * as settings from "../data/settings_dal";
+
+const _settings = new settings.SettingsDAL();
+_settings.getSettings();
 
 const config = require("config");
 const PIN = config.get("api.backdoor.pin");
