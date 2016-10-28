@@ -8,7 +8,7 @@ import * as bodyParser from "body-parser";
 import * as path from "path";
 import * as http from "http";
 import * as mongoose from "mongoose";
-mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation");
+mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation", ["settings", "doorsensors", "zapsensors"]);
 
 //Let's import your router files
 import * as garageRouter from "./routes/garage";
