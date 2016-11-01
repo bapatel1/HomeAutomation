@@ -1,47 +1,66 @@
 /// <reference path="../typings/modules/mongoose/index.d.ts" />
 "use strict";
-var mongoose = require("mongoose");
 var Settings = require("../model/settings");
-mongoose.connect("mongodb://bhavin1983:heck429sis957@ds061076.mlab.com:61076/homeautomation");
+var SettingsTable = (function () {
+    function SettingsTable() {
+    }
+    return SettingsTable;
+}());
 var SettingsDAL = (function () {
     function SettingsDAL() {
         this._settings = new Settings();
     }
+    SettingsDAL.prototype.getSettingsByKey = function (key) {
+        try {
+            Settings.findOne({ key: key }, function (err, results) {
+                if (err) {
+                    return { info: "Error during find settings by KEY", error: err };
+                }
+                else {
+                    console.log(results);
+                    return { info: "Settings by KEY found successfully ", data: results };
+                }
+            });
+        }
+        catch (e) {
+            return { info: "Exception during find settings by KEY", error: e.message };
+        }
+    };
     SettingsDAL.prototype.getSettings = function () {
-        Settings.find({}, function (err, results) {
-            if (err) {
-                return { info: "error during find settings", error: err };
-            }
-            else {
-                console.log(results);
-                return { info: "Settings found successfully", data: results };
-            }
-        });
+        try {
+            Settings.find({}, function (err, results) {
+                if (err) {
+                    return { info: "error during find settings", error: err };
+                }
+                else {
+                    console.log(results);
+                    return { info: "Settings found successfully", data: results };
+                }
+            });
+        }
+        catch (e) {
+            return { info: "Exception during find settings", error: e.message };
+        }
     };
     SettingsDAL.prototype.overrideSettings = function (key, newvalue) {
         try {
-            Settings.find({ key: key }, function (err, results) {
+            Settings.findOne({ key: key }, function (err, setting) {
                 if (err) {
                     return { info: "Error during find settings by key", error: err };
                 }
                 else {
                     console.log("Found record to Override...");
-                    results.value = newvalue;
-                    results.save();
+                    setting.value = newvalue;
+                    console.log(setting);
+                    setting.save();
+                    return { info: "Successfully override settings", data: setting };
                 }
             });
         }
         catch (e) {
-            throw e;
+            return { info: "Exception during find settings by key", error: e.message };
         }
     };
     return SettingsDAL;
 }());
 exports.SettingsDAL = SettingsDAL;
-// results.save ( (err: any) => {
-//   if (err) {
-//       return {info: "Error during updating settings by key", error: err};
-//   } else {
-//       return {info: "Settings Override successfully", data: key};
-//   }
-// });

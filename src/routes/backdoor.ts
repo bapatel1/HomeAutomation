@@ -9,6 +9,9 @@ import * as path from "path";
 //Setting DataAccessLayer Code
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
+const twilioSettings = _settingsDal.getSettingsByKey("twilio");
+console.log(twilioSettings);
+console.log(twilioSettings.data.value.accountsid);
 // const _settings = _settingsDal.getSettings();
 // const newTestSetting = {
 //   info: "updated value",
@@ -39,8 +42,8 @@ const rpi433 = require("rpi-433"),
     });
 
 const twilio = require("twilio");
-const twilioSettings = _settingsDal.getSettingsByKey("twilio");
-console.log(twilioSettings);
+
+
 const client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
 
 // Receive (data is like {code: xxx, pulseLength: xxx})
