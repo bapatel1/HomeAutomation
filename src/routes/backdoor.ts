@@ -10,8 +10,8 @@ import * as path from "path";
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
 const twilioSettings = _settingsDal.getSettingsByKey("twilio").then((result: any) => {
-    console.log(twilioSettings);
-    console.log(twilioSettings.data);
+    console.log(result);
+    console.log(result.data);
 });
 
 // const _settings = _settingsDal.getSettings();
