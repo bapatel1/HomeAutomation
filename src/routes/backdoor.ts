@@ -9,9 +9,11 @@ import * as path from "path";
 //Setting DataAccessLayer Code
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
-const twilioSettings = _settingsDal.getSettingsByKey("twilio");
-console.log(twilioSettings);
-console.log(twilioSettings.data);
+const twilioSettings = _settingsDal.getSettingsByKey("twilio").then((result: any) => {
+    console.log(twilioSettings);
+    console.log(twilioSettings.data);
+});
+
 // const _settings = _settingsDal.getSettings();
 // const newTestSetting = {
 //   info: "updated value",
@@ -31,8 +33,8 @@ const config = require("config");
  Every values are in config.
  */
 class RFData {
-  code: string;
-  pulseLength : string;
+    code: string;
+    pulseLength: string;
 }
 
 const rpi433 = require("rpi-433"),
@@ -47,29 +49,29 @@ const twilio = require("twilio");
 const client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
 
 // Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on ("data", function ( data: RFData ) {
-  console.log("---------------------------------");
-  console.log(data);
-  console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-
-  if (+(data.code) === +(config.get("api.backdoor.sensor.receivercode"))) {
-    // Send the text message.
-     console.log("Code Match Found. Now sending Text");
-     client.sendMessage({
-          to: "" + config.get("api.twilio.textto"),
-          from: "" + config.get("api.twilio.textfrom"),
-          body: "" + config.get("api.backdoor.sensor.message")
-    });
-
-    console.log("Text Sent!");
+rfSniffer.on("data", function(data: RFData) {
     console.log("---------------------------------");
-  }
+    console.log(data);
+    console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+
+    if (+(data.code) === +(config.get("api.backdoor.sensor.receivercode"))) {
+        // Send the text message.
+        console.log("Code Match Found. Now sending Text");
+        client.sendMessage({
+            to: "" + config.get("api.twilio.textto"),
+            from: "" + config.get("api.twilio.textfrom"),
+            body: "" + config.get("api.backdoor.sensor.message")
+        });
+
+        console.log("Text Sent!");
+        console.log("---------------------------------");
+    }
 
 });
 
 module Route {
-  export class BackDoor {
-    //Nothing goes here as this class basically have to just listen RF door sensors
-  }
+    export class BackDoor {
+        //Nothing goes here as this class basically have to just listen RF door sensors
+    }
 }
 export = Route;
