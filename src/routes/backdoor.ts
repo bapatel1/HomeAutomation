@@ -11,7 +11,7 @@ import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
 const twilioSettings = _settingsDal.getSettingsByKey("twilio");
 console.log(twilioSettings);
-// console.log(twilioSettings.data.value.accountsid);
+console.log(twilioSettings.data);
 // const _settings = _settingsDal.getSettings();
 // const newTestSetting = {
 //   info: "updated value",
