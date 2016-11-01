@@ -32,7 +32,9 @@ export class SettingsDAL {
             }
         });
       } catch (e) {
-        return {info: "Exception during find settings by KEY", error: e.message};
+        this._return.info = "Exception during find settings by KEY";
+        this._return.error = e.message;
+        return this._return;
       }
     }
 
@@ -52,7 +54,9 @@ export class SettingsDAL {
             }
         });
       } catch (e) {
-        return {info: "Exception during find settings", error: e.message};
+        this._return.info = "Exception during find settings";
+        this._return.error = e.message;
+        return this._return;
       }
     }
 
@@ -60,11 +64,11 @@ export class SettingsDAL {
         try {
             Settings.findOne({ key: key }, (err: any, setting: any) => {
                 if (err) {
-                    this._return.info = "Error during find settings by key";
+                    this._return.info = "Error during find settings by key to override";
                     this._return.error = err;
                     return this._return;
                 } else {
-                    console.log("Found record to Override...");
+                    console.log("Found record to Override");
                     setting.value = newvalue;
                     console.log(setting);
                     setting.save();
@@ -74,7 +78,9 @@ export class SettingsDAL {
                 }
             });
         } catch (e) {
-            return {info: "Exception during find settings by key", error: e.message};
+          this._return.info = "Exception during find override settings by KEY";
+          this._return.error = e.message;
+          return this._return;
         }
     }
 }
