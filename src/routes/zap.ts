@@ -39,7 +39,6 @@ module Route {
         }
 
         public sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
-            // Receive (data is like {code: xxx, pulseLength: xxx})
             rfSniffer.on("data", function(data: RF) {
                 console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
             });
@@ -50,21 +49,9 @@ module Route {
             //res.send (req.params);
             if (req.params.val === "1") {
                 const onCode = +(config.get("api.zap.button1.on.code"));
-                // rfEmitter.sendCode(onCode, function (error: string , stdout: any) {   //Send 1234
-                //     if (!error) {
-                //        console.log(stdout); //Should display code
-                //        res.send("(Button 1) Switch ON");
-                //      }
-                // });
                 this.transmit(+(req.params.val), "ON" , onCode, "Button-1", res);
             } else {
                 const offCode = +(config.get("api.zap.button1.off.code"));
-                // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
-                //     if (!error) {
-                //        console.log(stdout); //Should display code
-                //        res.send("(Button 1) Switch OFF");
-                //      }
-                // });
                 this.transmit(+(req.params.val), "OFF", offCode, "Button-1", res);
             }
         }
