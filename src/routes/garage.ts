@@ -37,10 +37,11 @@ class Task {
 }
 
 
-const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: any) => {
+const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
     //console.log(twilioSettings);
     //console.log(twilioSettings.data);
     //Twilio registration
+    let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
     // Receive (data is like {code: xxx, pulseLength: xxx})
     rfSniffer.on("data", function(data: RFData) {
