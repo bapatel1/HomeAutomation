@@ -27,7 +27,7 @@ export class SettingsDAL {
                     this._return.error = err;
                     q.reject(this._return);
                 } else {
-                    console.log(results);
+                    //console.log(results);
                     this._return.info = "Settings by KEY found successfully";
                     this._return.data = results;
                     q.resolve(this._return);
@@ -51,7 +51,7 @@ export class SettingsDAL {
                     this._return.error = err;
                     q.reject(this._return);
                 } else {
-                    console.log(results);
+                    //console.log(results);
                     this._return.info = "Settings found successfully";
                     this._return.data = results;
                     q.resolve(this._return);
@@ -74,9 +74,9 @@ export class SettingsDAL {
                     this._return.error = err;
                     q.reject(this._return);
                 } else {
-                    console.log("Found record to Override");
+                    //console.log("Found record to Override");
                     setting.value = newvalue;
-                    console.log(setting);
+                    //console.log(setting);
                     setting.save();
                     this._return.info = "Successfully override settings";
                     this._return.data = setting;
