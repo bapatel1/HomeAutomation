@@ -34,7 +34,8 @@ const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: 
             //console.log(backdoorSettings);
             if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
                 // Send the text message.
-                console.log("Code Match Found. Now sending Text");
+                console.log("[Back Door]  Code Match Found. Now sending Text");
+                console.log(twilioSettings.data.value.textto + "      " + twilioSettings.data.value.textfrom);
                 client.sendMessage({
                     to: "" + twilioSettings.data.value.textto,
                     from: "" + twilioSettings.data.value.textfrom,
