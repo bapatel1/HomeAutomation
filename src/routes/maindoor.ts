@@ -17,10 +17,11 @@ const rpi433 = require("rpi-433"),
         debounceDelay: 500          //Wait 500ms before reading another code
     });
 
-const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: any) => {
+const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
     //console.log(twilioSettings);
     //console.log(twilioSettings.data);
     //Twilio registration
+    let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
     // Receive (data is like {code: xxx, pulseLength: xxx})
     rfSniffer.on("data", function(data: RFData) {
@@ -33,7 +34,7 @@ const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: 
             if (+(data.code) === +(maindoorSettings.data.value.sensor.receivercode)) {
                 // Send the text message.
                 console.log("[Main Door]  Code Match Found. Now sending Text");
-                console.log(twilioSettings.data.value.textto + "      " + twilioSettings.data.value.textfrom);
+                console.log(twilioSettings.data.value.textto + "   ###   " + twilioSettings.data.value.textfrom);
                 client.sendMessage({
                     to: "" + twilioSettings.data.value.textto,
                     from: "" + twilioSettings.data.value.textfrom,

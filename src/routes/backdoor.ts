@@ -18,10 +18,11 @@ const rpi433 = require("rpi-433"),
 //Setting DataAccessLayer Code
 import * as settingsDal from "../data/settings_dal";
 const _settingsDal = new settingsDal.SettingsDAL();
-const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: any) => {
+const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
     //console.log(twilioSettings);
     //console.log(twilioSettings.data);
     //Twilio registration
+    let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
 
     // Receive (data is like {code: xxx, pulseLength: xxx})
@@ -35,7 +36,7 @@ const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: 
             if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
                 // Send the text message.
                 console.log("[Back Door]  Code Match Found. Now sending Text");
-                console.log(twilioSettings.data.value.textto + "      " + twilioSettings.data.value.textfrom);
+                console.log(twilioSettings.data.value.textto + "   ###   " + twilioSettings.data.value.textfrom);
                 client.sendMessage({
                     to: "" + twilioSettings.data.value.textto,
                     from: "" + twilioSettings.data.value.textfrom,
