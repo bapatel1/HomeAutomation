@@ -3,13 +3,18 @@ const tslint = require("gulp-tslint");
 const clean = require("gulp-clean");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
-
+const gulpFilter = require('gulp-filter');
+const filter = gulpFilter(['**/*.ts', '!**/*d.ts']);
 
 gulp.task("lint", function() {
-    return gulp.src("src/**/*.ts").pipe(tslint({}))
+    return gulp.src("src/**/*.ts")
+        .pipe(filter)
+        .pipe(tslint({}))
         .pipe(tslint.report({
             summarizeFailureOutput: true
-        }));
+        }))
+        //.pipe(filter.restore()) // clear filter
+       ;
 });
 gulp.task('clean', function() {
     return gulp.src('build/*', {

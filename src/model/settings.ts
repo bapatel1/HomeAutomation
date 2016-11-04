@@ -8,5 +8,5 @@ const settingsSchema = new mongoose.Schema({
   value: Object
 });
 
-const Settings = mongoose.model("settings", settingsSchema);
-export = Settings;
+const _Settings = mongoose.model("settings", settingsSchema);
+export = _Settings;

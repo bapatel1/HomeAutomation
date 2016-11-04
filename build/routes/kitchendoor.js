@@ -1,14 +1,10 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
+var settingsDal = require("../data/settings_dal");
+var _settingsDal = new settingsDal.SettingsDAL();
+var twilio = require("twilio");
 var config = require("config");
 var PIN = config.get("api.kitchendoor.pin");
-/* Following code is for reading garage door sensor
- We have RF 433Mhz Door sensor for Garaga Door.
- We are using Libaray called- "rpi-433".
- Now, Once sensor sniff correct sensor code,
- We are using Twilio to send SMS/Text to cellphone.
- Every values are in config.
- */
 var RFData = (function () {
     function RFData() {
     }
@@ -18,24 +14,33 @@ var rpi433 = require("rpi-433"), rfSniffer = rpi433.sniffer({
     pin: 2,
     debounceDelay: 500 //Wait 500ms before reading another code
 });
-var twilio = require("twilio");
-var client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
-// Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on("data", function (data) {
-    console.log("---------------------------------");
-    console.log(data);
-    console.log("[KitchenDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (+(data.code) === +(config.get("api.kitchendoor.sensor.receivercode"))) {
-        // Send the text message.
-        console.log("Code Match Found. Now sending Text");
-        client.sendMessage({
-            to: "" + config.get("api.twilio.textto"),
-            from: "" + config.get("api.twilio.textfrom"),
-            body: "" + config.get("api.kitchendoor.sensor.message")
+var _settings = _settingsDal.getSettingsByKey("twilio").then(function (twilioSettings) {
+    //console.log(twilioSettings);
+    //console.log(twilioSettings.data);
+    //Twilio registration
+    var client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
+    // Receive (data is like {code: xxx, pulseLength: xxx})
+    rfSniffer.on("data", function (data) {
+        //console.log("---------------------------------");
+        //console.log(data);
+        //console.log("[KitchenDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+        _settingsDal.getSettingsByKey("backdoor").then(function (kitchendoorSettings) {
+            //console.log("KitchenDoor Settings");
+            //console.log(kitchendoorSettings);
+            if (+(data.code) === +(kitchendoorSettings.data.value.sensor.receivercode)) {
+                // Send the text message.
+                console.log("[Kitchen Door]  Code Match Found. Now sending Text");
+                console.log(twilioSettings.data.value.textto + "      " + twilioSettings.data.value.textfrom);
+                client.sendMessage({
+                    to: "" + twilioSettings.data.value.textto,
+                    from: "" + twilioSettings.data.value.textfrom,
+                    body: "" + kitchendoorSettings.data.value.sensor.message
+                });
+                console.log("Text Sent!");
+                console.log("---------------------------------");
+            }
         });
-        console.log("Text Sent!");
-        console.log("---------------------------------");
-    }
+    });
 });
 var Route;
 (function (Route) {

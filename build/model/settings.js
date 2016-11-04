@@ -6,5 +6,5 @@ var settingsSchema = new mongoose.Schema({
     key: String,
     value: Object
 });
-var Settings = mongoose.model("settings", settingsSchema);
-module.exports = Settings;
+var _Settings = mongoose.model("settings", settingsSchema);
+module.exports = _Settings;

@@ -34,22 +34,10 @@ var Route;
                 //res.send (req.params);
                 if (req.params.val === "1") {
                     var onCode = +(config.get("api.zap.button1.on.code"));
-                    // rfEmitter.sendCode(onCode, function (error: string , stdout: any) {   //Send 1234
-                    //     if (!error) {
-                    //        console.log(stdout); //Should display code
-                    //        res.send("(Button 1) Switch ON");
-                    //      }
-                    // });
                     _this.transmit(+(req.params.val), "ON", onCode, "Button-1", res);
                 }
                 else {
                     var offCode = +(config.get("api.zap.button1.off.code"));
-                    // rfEmitter.sendCode(offCode, function (error: string , stdout: any) {   //Send 1234
-                    //     if (!error) {
-                    //        console.log(stdout); //Should display code
-                    //        res.send("(Button 1) Switch OFF");
-                    //      }
-                    // });
                     _this.transmit(+(req.params.val), "OFF", offCode, "Button-1", res);
                 }
             };
@@ -99,7 +87,6 @@ var Route;
             };
         }
         Zap.prototype.sniffer = function (req, res, next) {
-            // Receive (data is like {code: xxx, pulseLength: xxx})
             rfSniffer.on("data", function (data) {
                 console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
             });

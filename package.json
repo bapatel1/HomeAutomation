@@ -36,6 +36,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-cli": "^1.2.2",
+    "gulp-filter": "^4.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-ts": "^0.3.0",
     "gulp-tslint": "^6.1.1",

@@ -1,7 +1,7 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
-var exec = require('child_process').exec;
-var si = require('systeminformation');
+var exec = require("child_process").exec;
+var si = require("systeminformation");
 var Route;
 (function (Route) {
     var Pi = (function () {
@@ -45,18 +45,20 @@ var Route;
         };
         Pi.prototype.restart = function (req, res, next) {
             //res.json("{title:'index', message:'OFF: Index'}");
-            var child = exec('sudo shutdown -r now', function (error, stdout, stderr) {
-                if (error)
+            var child = exec("sudo shutdown -r now", function (error, stdout, stderr) {
+                if (error) {
                     console.log(error);
+                }
                 res.json(stdout);
                 process.stderr.write(stderr);
             });
         };
         Pi.prototype.shutdown = function (req, res, next) {
             //res.json("{title:'index', message:'OFF: Index'}");
-            var child = exec('sudo shutdown -h now', function (error, stdout, stderr) {
-                if (error)
+            var child = exec("sudo shutdown -h now", function (error, stdout, stderr) {
+                if (error) {
                     console.log(error);
+                }
                 res.json(stdout);
                 process.stderr.write(stderr);
             });
