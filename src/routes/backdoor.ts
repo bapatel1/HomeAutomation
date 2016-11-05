@@ -2,25 +2,25 @@
 
 "use strict";
 import * as express from "express";
+import * as settingsDal from "../data/settings_dal";
 const twilio = require("twilio");
+const _settingsDal = new settingsDal.SettingsDAL();
+const rpi433 = require("rpi-433"),
+rfSniffer = rpi433.sniffer({
+  pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
+  debounceDelay: 500          //Wait 500ms before reading another code
+});
+
 
 class RFData {
     code: string;
     pulseLength: string;
 }
 
-const rpi433 = require("rpi-433"),
-    rfSniffer = rpi433.sniffer({
-        pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-        debounceDelay: 500          //Wait 500ms before reading another code
-    });
-
 //Setting DataAccessLayer Code
-import * as settingsDal from "../data/settings_dal";
-const _settingsDal = new settingsDal.SettingsDAL();
 const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
-    //console.log(twilioSettings);
-    //console.log(twilioSettings.data);
+    console.log(twilio);
+    console.log(twilio.data);
     //Twilio registration
     let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
