@@ -6,17 +6,11 @@ import * as settingsDal from "../data/settings_dal";
 const twilio = require("twilio");
 const _settingsDal = new settingsDal.SettingsDAL();
 const rpi433 = require("rpi-433");
-let rfSniffer = rpi433.sniffer({
-    pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-    debounceDelay: 500          //Wait 500ms before reading another code
-});
 
-
-class RFData {
+ class RFData {
     code: string;
     pulseLength: string;
 }
-
 //Setting DataAccessLayer Code
 const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
     //console.log(twilio);
@@ -25,6 +19,10 @@ const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => 
     let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
 
+    let rfSniffer = rpi433.sniffer({
+        pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
+        debounceDelay: 500          //Wait 500ms before reading another code
+    });
     // Receive (data is like {code: xxx, pulseLength: xxx})
     rfSniffer.on("data", function(data: RFData) {
         console.log("---------------------------------");
