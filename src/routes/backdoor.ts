@@ -12,7 +12,7 @@ class RFData {
     pulseLength: string;
 }
 
-let rfSniffer = rpi433.sniffer({
+const rfSniffer = rpi433.sniffer({
     pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
     debounceDelay: 500          //Wait 500ms before reading another code
 });
@@ -21,7 +21,7 @@ rfSniffer.on("data", function(data: RFData) {
     const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
         //console.log(twilio);
         //Twilio registration
-        let twilioSettings = twilio;
+        const twilioSettings = twilio;
         console.log(twilioSettings.data);
         const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
         console.log(client);
@@ -31,8 +31,8 @@ rfSniffer.on("data", function(data: RFData) {
         console.log(data);
         console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
         _settingsDal.getSettingsByKey("backdoor").then((backdoorSettings: any) => {
-            //console.log("BackDoor Settings");
-            //console.log(backdoorSettings);
+            console.log("BackDoor Settings");
+            console.log(backdoorSettings);
             if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
                 // Send the text message.
                 console.log("[Back Door]  Code Match Found. Now sending Text");
