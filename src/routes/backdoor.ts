@@ -19,7 +19,7 @@ class RFData {
 
 //Setting DataAccessLayer Code
 const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
-    console.log(twilio);
+    //console.log(twilio);
     console.log(twilio.data);
     //Twilio registration
     let twilioSettings = twilio;
@@ -27,9 +27,9 @@ const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => 
 
     // Receive (data is like {code: xxx, pulseLength: xxx})
     rfSniffer.on("data", function(data: RFData) {
-        //console.log("---------------------------------");
-        //console.log(data);
-        //console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+        console.log("---------------------------------");
+        console.log(data);
+        console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
         _settingsDal.getSettingsByKey("backdoor").then((backdoorSettings: any) => {
             //console.log("BackDoor Settings");
             //console.log(backdoorSettings);
