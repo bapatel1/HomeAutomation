@@ -40,7 +40,7 @@ module Route {
 
         public sniffer(req: express.Request, res: express.Response, next: express.NextFunction) {
             rfSniffer.on("data", function(data: RF) {
-                console.log("Code received: " + data.code + " pulse length : " + data.pulseLength);
+                res.send("Code received: " + data.code + " pulse length : " + data.pulseLength);
             });
         }
 
