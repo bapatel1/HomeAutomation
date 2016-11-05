@@ -5,10 +5,10 @@ import * as express from "express";
 import * as settingsDal from "../data/settings_dal";
 const twilio = require("twilio");
 const _settingsDal = new settingsDal.SettingsDAL();
-const rpi433 = require("rpi-433"),
-rfSniffer = rpi433.sniffer({
-  pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-  debounceDelay: 500          //Wait 500ms before reading another code
+const rpi433 = require("rpi-433");
+let rfSniffer = rpi433.sniffer({
+    pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
+    debounceDelay: 500          //Wait 500ms before reading another code
 });
 
 
