@@ -20,10 +20,11 @@ const rfSniffer = rpi433.sniffer({
 let twilioSettings : any = null;
 
 rfSniffer.on("data", function(data: RFData) {
-    const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
+    const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
         //console.log(twilio);
         //Twilio registration
-        twilioSettings = twilio;
+        twilioSettings = twilioRes;
+        console.log("Twilio Settings");
         console.log(twilioSettings.data);
         const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
         console.log(client);
