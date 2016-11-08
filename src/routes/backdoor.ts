@@ -18,12 +18,12 @@ const rfSniffer = rpi433.sniffer({
 });
 
 let twilioSettings: any = null;
-_settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
+const tSettings = _settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
     twilioSettings = twilioRes;
 });
 
 let backdoorSettings: any = null;
-_settingsDal.getSettingsByKey("backdoor").then((backdoorRes: any) => {
+const bSettings = _settingsDal.getSettingsByKey("backdoor").then((backdoorRes: any) => {
     backdoorSettings = backdoorRes;
 });
 
