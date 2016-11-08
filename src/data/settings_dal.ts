@@ -27,7 +27,7 @@ export class SettingsDAL {
                     this._return.error = err;
                     q.reject(this._return);
                 } else {
-                    //console.log(results);
+                    console.log(results);
                     this._return.info = "Settings by KEY found successfully";
                     this._return.data = results;
                     q.resolve(this._return);
