@@ -2,51 +2,56 @@
 
 "use strict";
 import * as express from "express";
+import * as settingsDal from "../data/settings_dal";
 const twilio = require("twilio");
+const _settingsDal = new settingsDal.SettingsDAL();
+const rpi433 = require("rpi-433");
 
 class RFData {
     code: string;
     pulseLength: string;
 }
 
-const rpi433 = require("rpi-433"),
-    rfSniffer = rpi433.sniffer({
-        pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-        debounceDelay: 500          //Wait 500ms before reading another code
-    });
+const rfSniffer = rpi433.sniffer({
+    pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
+    debounceDelay: 500          //Wait 500ms before reading another code
+});
 
-//Setting DataAccessLayer Code
-import * as settingsDal from "../data/settings_dal";
-const _settingsDal = new settingsDal.SettingsDAL();
-const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: any) => {
-    console.log(twilioSettings);
+let twilioSettings: any = null;
+const tSettings = _settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
+    twilioSettings = twilioRes;
+});
+
+let backdoorSettings: any = null;
+const bSettings = _settingsDal.getSettingsByKey("backdoor").then((backdoorRes: any) => {
+    backdoorSettings = backdoorRes;
+});
+
+rfSniffer.on("data", function(data: RFData) {
+    console.log("Twilio Settings");
     console.log(twilioSettings.data);
-    //Twilio registration
-    const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
-
+    //const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
+    //console.log(client);
     // Receive (data is like {code: xxx, pulseLength: xxx})
-    rfSniffer.on("data", function(data: RFData) {
-        console.log("---------------------------------");
-        console.log(data);
-        console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-        _settingsDal.getSettingsByKey("backdoor").then((backdoorSettings: any) => {
-            console.log("BackDoor Settings");
-            console.log(backdoorSettings);
-            if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
-                // Send the text message.
-                console.log("Code Match Found. Now sending Text");
-                client.sendMessage({
-                    to: "" + twilioSettings.data.value.textto,
-                    from: "" + twilioSettings.data.value.textfrom,
-                    body: "" + backdoorSettings.data.value.sensor.message
-                });
 
-                console.log("Text Sent!");
-                console.log("---------------------------------");
-            }
-        });
-
-    });
+    console.log("---------------------------------");
+    console.log(data);
+    console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+    console.log("BackDoor Settings");
+    console.log(backdoorSettings);
+    // if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
+    //     // Send the text message.
+    //     console.log("[Back Door]  Code Match Found. Now sending Text");
+    //     console.log(twilioSettings.data.value.textto + "   ###   " + twilioSettings.data.value.textfrom);
+    //     client.sendMessage({
+    //         to: "" + twilioSettings.data.value.textto,
+    //         from: "" + twilioSettings.data.value.textfrom,
+    //         body: "" + backdoorSettings.data.value.sensor.message
+    //     });
+    //
+    //     console.log("Text Sent!");
+    //     console.log("---------------------------------");
+    // };
 });
 module Route {
     export class BackDoor {

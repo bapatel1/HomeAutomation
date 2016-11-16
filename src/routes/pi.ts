@@ -4,8 +4,8 @@
 import * as express from "express";
 import * as events from "events";
 import * as stream from "stream";
-const exec = require('child_process').exec;
-const si = require('systeminformation');
+const exec = require("child_process").exec;
+const si = require("systeminformation");
 
 
 module Route {
@@ -57,8 +57,10 @@ module Route {
 
         restart(req: express.Request, res: express.Response, next: express.NextFunction) {
             //res.json("{title:'index', message:'OFF: Index'}");
-            let child = exec('sudo shutdown -r now', function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error) console.log(error);
+            let child = exec("sudo shutdown -r now", function(error: Error, stdout: Buffer, stderr: Buffer) {
+                if (error) {
+                  console.log(error);
+                }
                 res.json(stdout);
                 process.stderr.write(stderr);
             });
@@ -67,8 +69,10 @@ module Route {
 
         shutdown(req: express.Request, res: express.Response, next: express.NextFunction) {
             //res.json("{title:'index', message:'OFF: Index'}");
-            let child = exec('sudo shutdown -h now', function(error: Error, stdout: Buffer, stderr: Buffer) {
-                if (error) console.log(error);
+            let child = exec("sudo shutdown -h now", function(error: Error, stdout: Buffer, stderr: Buffer) {
+                if (error) {
+                  console.log(error);
+                }
                 res.json(stdout);
                 process.stderr.write(stderr);
             });

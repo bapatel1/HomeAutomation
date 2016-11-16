@@ -22,7 +22,7 @@ const config = require("config");
 
 let PIN: any = null;
 _settingsDal.getSettingsByKey("garage").then((garageSettings: any) => {
-    console.log("Garage PIN = " + garageSettings.data.value.pin);
+    //console.log("Garage PIN = " + garageSettings.data.value.pin);
     PIN = garageSettings.data.value.pin;
 });
 
@@ -37,20 +37,22 @@ class Task {
 }
 
 
-const _settings = _settingsDal.getSettingsByKey("twilio").then((twilioSettings: any) => {
-    console.log(twilioSettings);
-    console.log(twilioSettings.data);
+const _settings = _settingsDal.getSettingsByKey("twilio").then((twilio: any) => {
+    //console.log(twilioSettings);
+    //console.log(twilioSettings.data);
     //Twilio registration
+    let twilioSettings = twilio;
     const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
     // Receive (data is like {code: xxx, pulseLength: xxx})
     rfSniffer.on("data", function(data: RFData) {
-        console.log("---------------------------------");
-        console.log(data);
-        console.log("[GarageDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+        //console.log("---------------------------------");
+        //console.log(data);
+        //console.log("[GarageDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
         _settingsDal.getSettingsByKey("garage").then((garageSettings: any) => {
             if (+(data.code) === +(garageSettings.data.value.sensor.receivercode)) {
                 // Send the text message.
-                console.log("Code Match Found. Now sending Text");
+                console.log("[Garage Door]  Code Match Found. Now sending Text");
+                console.log(twilioSettings.data.value.textto + "   ###   " + twilioSettings.data.value.textfrom);
                 client.sendMessage({
                     to: "" + twilioSettings.data.value.textto,
                     from: "" + twilioSettings.data.value.textfrom,
