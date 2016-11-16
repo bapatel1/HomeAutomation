@@ -1,5 +1,4 @@
 /// <reference path="../typings/modules/mongoose/index.d.ts" />
-
 import * as mongoose from "mongoose";
 import * as Settings from "../model/settings";
 const Q = require("q");

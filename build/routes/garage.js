@@ -1,50 +1,57 @@
 /// <reference path='../typings/tsd.d.ts' />
 "use strict";
 var path = require("path");
+var settingsDal = require("../data/settings_dal");
+var _settingsDal = new settingsDal.SettingsDAL();
 var exec = require("child_process").exec;
 var rpio = require("rpio");
-var config = require("config");
-var PIN = config.get("api.garage.pin");
-/* Following code is for reading garage door sensor
- We have RF 433Mhz Door sensor for Garaga Door.
- We are using Libaray called- "rpi-433".
- Now, Once sensor sniff correct sensor code,
- We are using Twilio to send SMS/Text to cellphone.
- Every values are in config.
- */
-var RFData = (function () {
-    function RFData() {
-    }
-    return RFData;
-}());
 var rpi433 = require("rpi-433"), rfSniffer = rpi433.sniffer({
     pin: 2,
     debounceDelay: 500 //Wait 500ms before reading another code
 });
 var twilio = require("twilio");
-var client = twilio(config.get("api.twilio.accountsid"), config.get("api.twilio.authtoken"));
-// Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on("data", function (data) {
-    console.log("---------------------------------");
-    console.log(data);
-    console.log("[GarageDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
-    if (+(data.code) === +(config.get("api.garage.sensor.receivercode"))) {
-        // Send the text message.
-        console.log("Code Match Found. Now sending Text");
-        client.sendMessage({
-            to: "" + config.get("api.twilio.textto"),
-            from: "" + config.get("api.twilio.textfrom"),
-            body: "" + config.get("api.garage.sensor.message")
-        });
-        console.log("Text Sent!");
-        console.log("---------------------------------");
-    }
+var config = require("config");
+// PIN = config.get("api.garage.pin");
+var PIN = null;
+_settingsDal.getSettingsByKey("garage").then(function (garageSettings) {
+    console.log("Garage PIN = " + garageSettings.data.value.pin);
+    PIN = garageSettings.data.value.pin;
 });
+var RFData = (function () {
+    function RFData() {
+    }
+    return RFData;
+}());
 var Task = (function () {
     function Task() {
     }
     return Task;
 }());
+var _settings = _settingsDal.getSettingsByKey("twilio").then(function (twilioSettings) {
+    console.log(twilioSettings);
+    console.log(twilioSettings.data);
+    //Twilio registration
+    var client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
+    // Receive (data is like {code: xxx, pulseLength: xxx})
+    rfSniffer.on("data", function (data) {
+        console.log("---------------------------------");
+        console.log(data);
+        console.log("[GarageDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
+        _settingsDal.getSettingsByKey("garage").then(function (garageSettings) {
+            if (+(data.code) === +(garageSettings.data.value.sensor.receivercode)) {
+                // Send the text message.
+                console.log("Code Match Found. Now sending Text");
+                client.sendMessage({
+                    to: "" + twilioSettings.data.value.textto,
+                    from: "" + twilioSettings.data.value.textfrom,
+                    body: "" + garageSettings.data.value.sensor.message
+                });
+                console.log("Text Sent!");
+                console.log("---------------------------------");
+            }
+        });
+    });
+});
 //*******************************************************************
 //GPIO Library used - https://github.com/jperkin/node-rpio
 //*******************************************************************
@@ -54,6 +61,7 @@ var Route;
         function Garage() {
         }
         Garage.prototype.on = function (req, res, next) {
+            console.log("Inside on/off with PIN = " + PIN);
             var tasks = [];
             tasks.push({ message: "Initializing PIN for OUTPUT", created: new Date() });
             console.log("initializing PIN for OUTPUT");
