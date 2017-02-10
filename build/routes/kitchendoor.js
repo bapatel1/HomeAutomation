@@ -1,28 +1,22 @@
 /// <reference path='../typings/tsd.d.ts' />
-
 "use strict";
-import * as express from "express";
 // import * as settingsDal from "../data/settings_dal";
 // const _settingsDal = new settingsDal.SettingsDAL();
-const twilio = require("twilio");
-const config = require("config");
-const PIN = config.get("api.kitchendoor.pin");
-
-class RFData {
-    code: string;
-    pulseLength: string;
-}
-
-const rpi433 = require("rpi-433"),
-    rfSniffer = rpi433.sniffer({
-        pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-        debounceDelay: 500          //Wait 500ms before reading another code
-    });
-
-const client = twilio(config.get("twilio.accountsid"), config.get("twilio.authtoken"));
-
+var twilio = require("twilio");
+var config = require("config");
+var PIN = config.get("api.kitchendoor.pin");
+var RFData = (function () {
+    function RFData() {
+    }
+    return RFData;
+}());
+var rpi433 = require("rpi-433"), rfSniffer = rpi433.sniffer({
+    pin: 2,
+    debounceDelay: 500 //Wait 500ms before reading another code
+});
+var client = twilio(config.get("twilio.accountsid"), config.get("twilio.authtoken"));
 // Receive (data is like {code: xxx, pulseLength: xxx})
-rfSniffer.on("data", function (data: RFData) {
+rfSniffer.on("data", function (data) {
     //console.log("---------------------------------");
     //console.log(data);
     //console.log("[KitchenDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
@@ -38,11 +32,14 @@ rfSniffer.on("data", function (data: RFData) {
         console.log("Text Sent!");
         console.log("---------------------------------");
     }
-
 });
-module Route {
-    export class KitchenDoor {
-        //Nothing goes here as this class basically have to just listen RF door sensors
-    }
-}
-export = Route;
+var Route;
+(function (Route) {
+    var KitchenDoor = (function () {
+        function KitchenDoor() {
+        }
+        return KitchenDoor;
+    }());
+    Route.KitchenDoor = KitchenDoor;
+})(Route || (Route = {}));
+module.exports = Route;

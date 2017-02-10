@@ -1,39 +1,32 @@
 /// <reference path='../typings/tsd.d.ts' />
-
 "use strict";
-import * as express from "express";
 //import * as settingsDal from "../data/settings_dal";
-const twilio = require("twilio");
+var twilio = require("twilio");
 //const _settingsDal = new settingsDal.SettingsDAL();
-const rpi433 = require("rpi-433");
-
-class RFData {
-    code: string;
-    pulseLength: string;
-}
-
-const rfSniffer = rpi433.sniffer({
-    pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-    debounceDelay: 500          //Wait 500ms before reading another code
+var rpi433 = require("rpi-433");
+var RFData = (function () {
+    function RFData() {
+    }
+    return RFData;
+}());
+var rfSniffer = rpi433.sniffer({
+    pin: 2,
+    debounceDelay: 500 //Wait 500ms before reading another code
 });
-
 // let twilioSettings: any = null;
 // const tSettings = _settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
 //     twilioSettings = twilioRes;
 // });
-
 // let backdoorSettings: any = null;
 // const bSettings = _settingsDal.getSettingsByKey("backdoor").then((backdoorRes: any) => {
 //     backdoorSettings = backdoorRes;
 // });
-
-rfSniffer.on("data", function(data: RFData) {
+rfSniffer.on("data", function (data) {
     console.log("Twilio Settings");
     //console.log(twilioSettings.data);
     //const client = twilio(twilioSettings.data.value.accountsid, twilioSettings.data.value.authtoken);
     //console.log(client);
     // Receive (data is like {code: xxx, pulseLength: xxx})
-
     console.log("---------------------------------");
     console.log(data);
     console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
@@ -53,9 +46,13 @@ rfSniffer.on("data", function(data: RFData) {
     //     console.log("---------------------------------");
     // };
 });
-module Route {
-    export class BackDoor {
-        //Nothing goes here as this class basically have to just listen RF door sensors
-    }
-}
-export = Route;
+var Route;
+(function (Route) {
+    var BackDoor = (function () {
+        function BackDoor() {
+        }
+        return BackDoor;
+    }());
+    Route.BackDoor = BackDoor;
+})(Route || (Route = {}));
+module.exports = Route;

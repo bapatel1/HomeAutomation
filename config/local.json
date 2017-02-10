@@ -1,90 +1,79 @@
 {
-  "api":{
-    "twilio":{
-      "accountsid" : "ACd52563fa8cb3f0e422e1c1b3840acd3e",
-      "authtoken" : "e9f8bd3e6068f6afe191c771a6bec574",
-      "textto" : "+18482608360",
-      "textfrom" : "+19083049745 "
+  "twilio": {
+    "accountsid": "ACd52563fa8cb3f0e422e1c1b3840acd3e",
+    "authtoken": "e9f8bd3e6068f6afe191c771a6bec574",
+    "textto": "+18482608360",
+    "textfrom": "+19083049745 "
+  },
+  "garage": {
+    "value": "0",
+    "receivercode": "5592405"
+  },
+  "maindoor": {
+    "value": "0",
+    "receivercode": "6116693"
+  },
+  "backdoor": {
+    "value": "0",
+    "receivercode": "13981013"
+  },
+  "kitchendoor": {
+    "value": "0",
+    "receivercode": "7689557"
+  },
+  "zap1": {
+    "value": "1",
+    "on": {
+      "code": "4199731",
+      "pulseLength": "350"
     },
-    "garage":{
-      "pin":"7",
-      "sensor":{
-        "message" : "Hey, looks like some activity on Garage Door!",
-        "receivercode" : "5592405"
-      }
+    "off": {
+      "code": "4199740",
+      "pulseLength": "350"
+    }
+  },
+  "zap2": {
+    "value": "0",
+    "on": {
+      "code": "4199875",
+      "pulseLength": "350"
     },
-    "maindoor":{
-      "pin":"7",
-      "sensor":{
-        "message" : "Hey, looks like some activity on Main Door!",
-        "receivercode" : "6116693"
-      }
+    "off": {
+      "code": "4199884",
+      "pulseLength": "350"
+    }
+  },
+  "zap3": {
+    "value": "1",
+    "on": {
+      "code": "4200195",
+      "pulseLength": "350"
     },
-    "backdoor":{
-      "pin":"7",
-      "sensor":{
-        "message" : "Hey, looks like some activity on Back Door!",
-        "receivercode" : "13981013"
-      }
+    "off": {
+      "code": "4200204",
+      "pulseLength": "350"
+    }
+  },
+  "zap4": {
+    "value": "1",
+    "on": {
+      "code": "4201731",
+      "pulseLength": "350"
     },
-    "kitchendoor":{
-      "pin":"7",
-      "sensor":{
-        "message" : "Hey, looks like some activity on Kitchen Door!",
-        "receivercode" : "7689557"
-      }
+    "off": {
+      "code": "4201740",
+      "pulseLength": "350"
+    }
+  },
+  "zap5": {
+    "value": "1",
+    "on": {
+      "code": "4207875",
+      "pulseLength": "350"
     },
-    "zap":{
-      "button1":{
-          "on":{
-            "code":"4199731",
-            "pulseLength":"350"
-          },
-          "off":{
-            "code":"4199740",
-            "pulseLength":"350"
-          }
-      },
-      "button2":{
-        "on":{
-          "code":"4199875",
-          "pulseLength":"350"
-        },
-        "off":{
-          "code":"4199884",
-          "pulseLength":"350"
-        }
-      },
-      "button3":{
-        "on":{
-          "code":"4200195",
-          "pulseLength":"350"
-        },
-        "off":{
-          "code":"4200204",
-          "pulseLength":"350"
-        }
-      },
-      "button4":{
-        "on":{
-          "code":"4201731",
-          "pulseLength":"350"
-        },
-        "off":{
-          "code":"4201740",
-          "pulseLength":"350"
-        }
-      },
-      "button5":{
-        "on":{
-          "code":"4207875",
-          "pulseLength":"350"
-        },
-        "off":{
-          "code":"4207884",
-          "pulseLength":"350"
-        }
-      }
+    "off": {
+      "code": "4207884",
+      "pulseLength": "350"
     }
   }
 }
