@@ -112,7 +112,7 @@ class HttpServer {
 }
 
 //Now initialize app based on HttpServer Class,we defined.
-const port: number = process.env.PORT || 3030;
+const port: number = process.env.PORT || 3005;
 let httpserver = HttpServer.bootstrap();
 let app = httpserver.app;
 app.set("port", port);

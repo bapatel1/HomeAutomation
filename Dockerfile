@@ -75,7 +75,7 @@ RUN gulp clean
 RUN npm run build
 
 #Expose the port
-EXPOSE 3030
+EXPOSE 3005
 
 CMD ["npm", "start"]
 
