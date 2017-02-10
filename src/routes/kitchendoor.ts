@@ -6,7 +6,6 @@ import * as express from "express";
 // const _settingsDal = new settingsDal.SettingsDAL();
 const twilio = require("twilio");
 const config = require("config");
-const PIN = config.get("api.kitchendoor.pin");
 
 class RFData {
     code: string;
