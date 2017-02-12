@@ -6,6 +6,8 @@ import * as express from "express";
 const twilio = require("twilio");
 //const _settingsDal = new settingsDal.SettingsDAL();
 const rpi433 = require("rpi-433");
+const config = require("config");
+
 
 class RFData {
     code: string;
@@ -17,15 +19,8 @@ const rfSniffer = rpi433.sniffer({
     debounceDelay: 500          //Wait 500ms before reading another code
 });
 
-// let twilioSettings: any = null;
-// const tSettings = _settingsDal.getSettingsByKey("twilio").then((twilioRes: any) => {
-//     twilioSettings = twilioRes;
-// });
 
-// let backdoorSettings: any = null;
-// const bSettings = _settingsDal.getSettingsByKey("backdoor").then((backdoorRes: any) => {
-//     backdoorSettings = backdoorRes;
-// });
+const client = twilio(config.get("twilio.accountsid"), config.get("twilio.authtoken"));
 
 rfSniffer.on("data", function(data: RFData) {
     console.log("Twilio Settings");
@@ -39,19 +34,23 @@ rfSniffer.on("data", function(data: RFData) {
     console.log("[BackDoor] Code received: " + data.code + " pulse length : " + data.pulseLength);
     console.log("BackDoor Settings");
     //pi.tsconsole.log(backdoorSettings);
-    // if (+(data.code) === +(backdoorSettings.data.value.sensor.receivercode)) {
-    //     // Send the text message.
-    //     console.log("[Back Door]  Code Match Found. Now sending Text");
-    //     console.log(twilioSettings.data.value.textto + "   ###   " + twilioSettings.data.value.textfrom);
-    //     client.sendMessage({
-    //         to: "" + twilioSettings.data.value.textto,
-    //         from: "" + twilioSettings.data.value.textfrom,
-    //         body: "" + backdoorSettings.data.value.sensor.message
-    //     });
-    //
-    //     console.log("Text Sent!");
-    //     console.log("---------------------------------");
-    // };
+    if (+(data.code) === +(config.get("backdoor.receivercode"))) {
+        // Send the text message.
+        console.log("[Back Door]  Code Match Found. Now sending Text");
+        this.router = express.Router();
+         const updateValue = 0;
+         this.router.get("http://localhost:3000/backdoor", (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            console.log("###>" + res);
+         });
+        console.log(config.get("twilio.textto") + "   ###   " + config.get("twilio.textfrom"));
+        client.sendMessage({
+            to: "" + config.get("twilio.textto"),
+            from: "" + config.get("twilio.textfrom"),
+            body: "Garage door activity"
+        });
+        console.log("Text Sent!");
+        console.log("---------------------------------");
+    };
 });
 module Route {
     export class BackDoor {

@@ -4,7 +4,6 @@
 // const _settingsDal = new settingsDal.SettingsDAL();
 var twilio = require("twilio");
 var config = require("config");
-var PIN = config.get("api.kitchendoor.pin");
 var RFData = (function () {
     function RFData() {
     }

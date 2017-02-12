@@ -97,7 +97,7 @@ var HttpServer = (function () {
     return HttpServer;
 }());
 //Now initialize app based on HttpServer Class,we defined.
-var port = process.env.PORT || 3030;
+var port = process.env.PORT || 3005;
 var httpserver = HttpServer.bootstrap();
 var app = httpserver.app;
 app.set("port", port);
