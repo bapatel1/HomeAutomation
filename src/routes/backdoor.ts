@@ -46,7 +46,7 @@ rfSniffer.on("data", function(data: RFData) {
         client.sendMessage({
             to: "" + config.get("twilio.textto"),
             from: "" + config.get("twilio.textfrom"),
-            body: "Garage door activity"
+            body: "Back door activity"
         });
         console.log("Text Sent!");
         console.log("---------------------------------");
