@@ -16,7 +16,7 @@ class RFData {
 
 const rfSniffer = rpi433.sniffer({
     pin: 2,                     //Snif on GPIO 2 (or Physical PIN 13)
-    debounceDelay: 500          //Wait 500ms before reading another code
+    debounceDelay: 1000          //Wait 500ms before reading another code
 });
 
 
